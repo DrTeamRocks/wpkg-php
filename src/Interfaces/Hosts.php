@@ -31,19 +31,5 @@ interface Hosts
      *
      * @return object
      */
-    public function read();
-
-    /**
-     * Show current view of XML file
-     *
-     * @return mixed
-     */
     public function show();
-
-    /**
-     * Save the file on filesystem
-     *
-     * @return bool
-     */
-    public function save();
 }

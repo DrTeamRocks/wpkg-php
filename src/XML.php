@@ -44,7 +44,7 @@ abstract class XML
     public function __construct()
     {
         // Build new xml
-        $this->_xml = new \SimpleXMLElement("<$this->_root/>", LIBXML_NOERROR);
+        $this->_xml = new \SimpleXMLElement("<?xml version=\"1.0\" encoding=\"UTF-8\"?><$this->_root/>", LIBXML_NOERROR);
 
         // Add attributes into the root
         foreach ($this->_root_attributes as $key => $value) {
@@ -52,5 +52,32 @@ abstract class XML
             // Idk why but sxml lib cut the first element of namespace
             $this->_xml->addAttribute("ignore:$key", $value);
         }
+    }
+
+    /**
+     * Save the file on filesystem
+     *
+     * @return bool
+     */
+    public function save()
+    {
+        // Yeah, I know it's a crap, but only DOMDocument can make XML more pretty
+        $dom = new \DOMDocument('1.0');
+        $dom->preserveWhiteSpace = false;
+        $dom->formatOutput = true;
+        $dom->loadXML($this->_xml->asXML());
+
+        // Return bool answer about file saving operation
+        return $dom->save($this->path . DIRECTORY_SEPARATOR . $this->_filename);
+    }
+
+    /**
+     * Show existed XML file on filesystem
+     *
+     * @return mixed
+     */
+    public function read()
+    {
+        return file_get_contents($this->path . DIRECTORY_SEPARATOR . $this->_filename);
     }
 }

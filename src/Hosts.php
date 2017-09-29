@@ -111,33 +111,13 @@ class Hosts extends XML implements Interfaces\Hosts
         // Generate the XML
         $this->build();
 
-        //Format XML to save indented tree rather than one line
+        // Yeah, I know it's a crap, but only DOMDocument can make XML more pretty
         $dom = new \DOMDocument('1.0');
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
         $dom->loadXML($this->_xml->asXML());
-        //Echo XML - remove this and following line if echo not desired
+
         return $dom->saveXML();
     }
 
-    /**
-     * Save the file on filesystem
-     *
-     * @return bool
-     */
-    public function save()
-    {
-        // Return bool answer about file saving operation
-        return $this->_xml->asXML($this->path . DIRECTORY_SEPARATOR . $this->_filename);
-    }
-
-    /**
-     * Show existed XML file on filesystem
-     *
-     * @return mixed
-     */
-    public function read()
-    {
-        return file_get_contents($this->path . DIRECTORY_SEPARATOR . $this->_filename);
-    }
 }
