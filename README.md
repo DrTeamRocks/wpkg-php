@@ -18,7 +18,7 @@ $hosts->build();
 $hosts->save();
 ```
 
-You can can use single line method:
+You can also use single line method:
 
 ```php
 $hosts = new \WPKG\Hosts();
