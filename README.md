@@ -7,14 +7,29 @@ Prototype of library for generating of configs for WPKG project.
 Here the small example should showing you how to generate hosts.xml file.
 
 ```php
-include __DIR__ . "/vendor/autoload.php";
-
 $hosts = new \WPKG\Hosts();
 $hosts->path = '/path/to/wpkg';
+
 $hosts->add('host1', 'custom');
 $hosts->add('host2', ['one', 'two', 'three']);
 $hosts->add('host3', 'another');
+
+$hosts->build();
 $hosts->save();
+```
+
+You can can use single line method:
+
+```php
+$hosts = new \WPKG\Hosts();
+$hosts->path = '/path/to/wpkg';
+
+$hosts
+    ->add('host1', 'custom')
+    ->add('host2', ['one', 'two', 'three'])
+    ->add('host3', 'another')
+    ->build()
+    ->save();
 ```
 
 Any other examples you can find [here](/extra).

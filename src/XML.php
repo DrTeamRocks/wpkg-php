@@ -55,20 +55,38 @@ abstract class XML
     }
 
     /**
+     * Make XML more readable
+     *
+     * @return \DOMDocument
+     */
+    private function prettify() {
+        // Yeah, I know it's a crap, but only DOMDocument can make XML more pretty
+        $dom = new \DOMDocument('1.0');
+        $dom->preserveWhiteSpace = false;
+        $dom->formatOutput = true;
+        $dom->loadXML($this->_xml->asXML());
+        return $dom;
+    }
+
+    /**
+     * Show current view of XML file
+     *
+     * @return mixed
+     */
+    public function show()
+    {
+        return $this->prettify()->saveXML();
+    }
+
+    /**
      * Save the file on filesystem
      *
      * @return bool
      */
     public function save()
     {
-        // Yeah, I know it's a crap, but only DOMDocument can make XML more pretty
-        $dom = new \DOMDocument('1.0');
-        $dom->preserveWhiteSpace = false;
-        $dom->formatOutput = true;
-        $dom->loadXML($this->_xml->asXML());
-
         // Return bool answer about file saving operation
-        return $dom->save($this->path . DIRECTORY_SEPARATOR . $this->_filename);
+        return $this->prettify()->save($this->path . DIRECTORY_SEPARATOR . $this->_filename);
     }
 
     /**

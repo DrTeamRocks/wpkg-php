@@ -101,23 +101,4 @@ class Hosts extends XML implements Interfaces\Hosts
         return $this;
     }
 
-    /**
-     * Show current view of XML file
-     *
-     * @return mixed
-     */
-    public function show()
-    {
-        // Generate the XML
-        $this->build();
-
-        // Yeah, I know it's a crap, but only DOMDocument can make XML more pretty
-        $dom = new \DOMDocument('1.0');
-        $dom->preserveWhiteSpace = false;
-        $dom->formatOutput = true;
-        $dom->loadXML($this->_xml->asXML());
-
-        return $dom->saveXML();
-    }
-
 }

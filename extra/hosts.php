@@ -12,6 +12,9 @@ $_hosts->add('host1', 'custom');
 $_hosts->add('host2', ['one', 'two', 'three']);
 $_hosts->add('host3', 'another');
 
+// Generate the XML from array in memory
+$_hosts->build();
+
 // Show current variant of generated XML
 echo $_hosts->show();
 
