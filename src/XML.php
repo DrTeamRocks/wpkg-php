@@ -1,6 +1,6 @@
-<?php namespace DrTeam\WPKG;
+<?php namespace WPKG;
 
-abstract class Root
+abstract class XML
 {
     /**
      * Root namespace
@@ -21,10 +21,22 @@ abstract class Root
     protected $_xml;
 
     /**
+     * Name of XML file
+     * @var string
+     */
+    protected $_filename;
+
+    /**
      * Workmode option, single file or multiple files
      * @var bool
      */
     public $singleFile = true;
+
+    /**
+     * Path with files on filesystem
+     * @var string
+     */
+    public $path;
 
     /**
      * Root constructor.

@@ -1,20 +1,19 @@
 <?php
 include __DIR__ . "/../vendor/autoload.php";
 
-use DrTeam\WPKG\Hosts;
+use WPKG\Hosts;
 $_hosts = new Hosts();
 
-$hosts = [
-    [
-        'name' => 'host1',
-        'profile' => 'custom'
-    ],
-    [
-        'name' => 'host2',
-        'profiles' => [
-            'one', 'two', 'three'
-        ]
-    ]
-];
+// Set the path folder
+$_hosts->path = __DIR__ . '/../tmp';
 
-echo $_hosts->create($hosts);
+// Append few hosts
+$_hosts->add('host1', 'custom');
+$_hosts->add('host2', ['one', 'two', 'three']);
+$_hosts->add('host3', 'another');
+
+// Show current variant of generated XML
+echo $_hosts->show();
+
+// Save file on filesystem
+$_hosts->save();

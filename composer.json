@@ -18,7 +18,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "DrTeam\\WPKG\\": "src/"
+            "WPKG\\": "src/"
         }
     },
     "require": {
