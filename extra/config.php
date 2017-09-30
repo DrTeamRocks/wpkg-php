@@ -3,21 +3,21 @@ include __DIR__ . "/../vendor/autoload.php";
 
 use WPKG\Config;
 
-$_hosts = new Config();
+$_config = new Config();
 
 // Set the path folder
-$_hosts->path = __DIR__ . '/tmp';
+$_config->path = __DIR__ . '/tmp';
 
 // Overwrite some attributes
-$_hosts->wpkg_base = 'http://example.com';
-$_hosts->quitonerror = true;
-$_hosts->debug = true;
+$_config->wpkg_base = 'http://example.com';
+$_config->quitonerror = true;
+$_config->debug = true;
 
 // Generate the XML from array in memory
-$_hosts->build();
+$_config->build();
 
 // Show current variant of generated XML
-echo $_hosts->show();
+echo $_config->show();
 
 // Save file on filesystem
-$_hosts->save();
+$_config->save();
