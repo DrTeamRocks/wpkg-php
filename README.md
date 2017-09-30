@@ -16,9 +16,9 @@ $hosts = new \WPKG\Hosts();
 $hosts->path = '/path/to/wpkg';
 
 $hosts
-    ->add('host1', 'profile1')
-    ->add('host2', ['profile1', 'profile2', 'profile3'])
-    ->add('host3', 'profile3')
+    ->set('host1', 'profile1')
+    ->set('host2', ['profile1', 'profile2', 'profile3'])
+    ->set('host3', 'profile3')
     ->build()
     ->save();
 ```
@@ -32,9 +32,9 @@ $hosts = new \WPKG\Hosts();
 $hosts->path = '/path/to/wpkg';
 
 $hosts
-    ->add('profile1', 'DotNet')
-    ->add('profile2', ['Firefox', 'Chromium', 'Opera'], 'profile1')
-    ->add('profile3', ['SuperBank', 'AnotherBank'], ['profile1', 'profile2'])
+    ->set('profile1', 'DotNet')
+    ->set('profile2', ['Firefox', 'Chromium', 'Opera'], 'profile1')
+    ->set('profile3', ['SuperBank', 'AnotherBank'], ['profile1', 'profile2'])
     ->build()
     ->save();
 ```
@@ -49,8 +49,8 @@ Few tasks what still need realize.
 * [ ] Basic version of generators for
     * [ ] config.xml
     * [x] hosts.xml
-    * [x] packages.xml
-    * [ ] profiles.xml
+    * [ ] packages.xml
+    * [x] profiles.xml
 * [ ] Write tests for all classes
 
 ## Some links

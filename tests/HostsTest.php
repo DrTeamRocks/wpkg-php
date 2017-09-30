@@ -19,17 +19,17 @@ class HostsTest extends TestCase
     public function testAdd()
     {
         $hosts = new Hosts();
-        $this->assertTrue(is_object($hosts->add('test1', 'profile1')));
+        $this->assertTrue(is_object($hosts->set('test1', 'profile1')));
     }
 
     public function testGet()
     {
         $hosts = new Hosts();
-        $hosts->add('test1', 'profile1');
+        $hosts->set('test1', 'profile1');
         $this->assertTrue(is_string($hosts->get('test1')));
         $this->assertEquals('profile1', $hosts->get('test1'));
 
-        $hosts->add('test2', ['one', 'two', 'three']);
+        $hosts->set('test2', ['one', 'two', 'three']);
         $this->assertTrue(is_array($hosts->get('test2')));
         $this->assertEquals(['one', 'two', 'three'], $hosts->get('test2'));
 
@@ -40,7 +40,7 @@ class HostsTest extends TestCase
     public function testBuild()
     {
         $hosts = new Hosts();
-        $hosts->add('test1', 'profile1');
+        $hosts->set('test1', 'profile1');
         $this->assertTrue(is_object($hosts->build()));
     }
 

@@ -9,7 +9,7 @@ interface Hosts
      * @param string|array $profile
      * @return object
      */
-    public function add(string $hostname, $profile);
+    public function set(string $hostname, $profile);
 
     /**
      * Get array of hosts or single host

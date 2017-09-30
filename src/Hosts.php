@@ -50,7 +50,7 @@ class Hosts extends XML implements Interfaces\Hosts
      * @param array|string $profile - Profile must be set
      * @return string
      */
-    public function add(string $hostname, $profile)
+    public function set(string $hostname, $profile)
     {
         // Append new host into array
         $this->_hosts[$hostname] = $profile;

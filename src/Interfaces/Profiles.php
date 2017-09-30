@@ -10,7 +10,7 @@ interface Profiles
      * @param array|string|null $packages
      * @return mixed
      */
-    public function add(string $profile, $depends = null, $packages = null);
+    public function set(string $profile, $depends = null, $packages = null);
 
     /**
      * Get array of profiles or single profile

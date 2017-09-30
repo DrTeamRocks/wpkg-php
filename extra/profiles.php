@@ -9,11 +9,11 @@ $_profiles = new Profiles();
 $_profiles->path = __DIR__ . '/tmp';
 
 // Append few hosts
-$_profiles->add('profile0');
-$_profiles->add('profile1', 'DotNet');
-$_profiles->add('profile2', ['Firefox', 'Chromium', 'Opera'], 'profile1');
-$_profiles->add('profile3', ['SuperBank', 'AnotherBank'], ['profile1', 'profile2']);
-$_profiles->add('profile4', null, 'profile3');
+$_profiles->set('profile0');
+$_profiles->set('profile1', 'DotNet');
+$_profiles->set('profile2', ['Firefox', 'Chromium', 'Opera'], 'profile1');
+$_profiles->set('profile3', ['SuperBank', 'AnotherBank'], ['profile1', 'profile2']);
+$_profiles->set('profile4', null, 'profile3');
 
 // Generate the XML from array in memory
 $_profiles->build();

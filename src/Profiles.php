@@ -51,7 +51,7 @@ class Profiles extends XML implements Interfaces\Profiles
      * @param array|string|null $depends
      * @return mixed
      */
-    public function add(string $profile, $packages = null, $depends = null)
+    public function set(string $profile, $packages = null, $depends = null)
     {
         // Profile is array of values
         $this->_profiles[$profile] = [];

@@ -9,9 +9,9 @@ $_hosts = new Hosts();
 $_hosts->path = __DIR__ . '/tmp';
 
 // Append few hosts
-$_hosts->add('host1', 'custom');
-$_hosts->add('host2', ['one', 'two', 'three']);
-$_hosts->add('host3', 'another');
+$_hosts->set('host1', 'profile1');
+$_hosts->set('host2', ['profile1', 'profile2', 'profile3']);
+$_hosts->set('host3', 'profile3');
 
 // Generate the XML from array in memory
 $_hosts->build();
