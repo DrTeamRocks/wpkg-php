@@ -2,10 +2,11 @@
 include __DIR__ . "/../vendor/autoload.php";
 
 use WPKG\Hosts;
+
 $_hosts = new Hosts();
 
 // Set the path folder
-$_hosts->path = __DIR__ . '/../tmp';
+$_hosts->path = __DIR__ . '/tmp';
 
 // Append few hosts
 $_hosts->add('host1', 'custom');

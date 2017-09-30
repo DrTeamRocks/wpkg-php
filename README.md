@@ -2,7 +2,11 @@
 
 Prototype of library for generating of configs for WPKG project.
 
-## How to create *hosts.xml* file
+## Examples
+
+Full examples with descriptions you can find [here](/extra).
+
+### How to create *hosts.xml* file
 
 Here the small example should showing you how to generate hosts.xml file.
 
@@ -10,29 +14,29 @@ Here the small example should showing you how to generate hosts.xml file.
 $hosts = new \WPKG\Hosts();
 $hosts->path = '/path/to/wpkg';
 
-$hosts->add('host1', 'custom');
-$hosts->add('host2', ['one', 'two', 'three']);
-$hosts->add('host3', 'another');
-
-$hosts->build();
-$hosts->save();
+$hosts
+    ->add('host1', 'profile1')
+    ->add('host2', ['profile1', 'profile2', 'profile3'])
+    ->add('host3', 'profile3')
+    ->build()
+    ->save();
 ```
 
-You can also use single line method:
+### How to create *profiles.xml* file
+
+Here the small example should showing you how to generate hosts.xml file.
 
 ```php
 $hosts = new \WPKG\Hosts();
 $hosts->path = '/path/to/wpkg';
 
 $hosts
-    ->add('host1', 'custom')
-    ->add('host2', ['one', 'two', 'three'])
-    ->add('host3', 'another')
+    ->add('profile1', 'DotNet')
+    ->add('profile2', ['Firefox', 'Chromium', 'Opera'], 'profile1')
+    ->add('profile3', ['SuperBank', 'AnotherBank'], ['profile1', 'profile2'])
     ->build()
     ->save();
 ```
-
-Any other examples you can find [here](/extra).
 
 ## RoadMap
 
@@ -44,8 +48,9 @@ Few tasks what still need realize.
 * [ ] Basic version of generators for
     * [ ] config.xml
     * [x] hosts.xml
-    * [ ] packages.xml
+    * [x] packages.xml
     * [ ] profiles.xml
+* [ ] Write tests for all classes
 
 ## Some links
 

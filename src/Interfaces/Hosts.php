@@ -3,7 +3,7 @@
 interface Hosts
 {
     /**
-     * Generate the XML input data
+     * Add new host into the list
      *
      * @param string $hostname
      * @param string|array $profile

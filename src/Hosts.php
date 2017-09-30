@@ -47,7 +47,7 @@ class Hosts extends XML implements Interfaces\Hosts
      * Generate the XML
      *
      * @param string $hostname
-     * @param array|string $profile
+     * @param array|string $profile - Profile must be set
      * @return string
      */
     public function add(string $hostname, $profile)
