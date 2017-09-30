@@ -646,19 +646,43 @@ class Config extends XML
     public function build()
     {
         // Yep, reflector, because "get_class_vars" show all parameters (from parent also)
-        $ref = new \ReflectionClass('WPKG\Config');
-        $ref_properties = $ref->getProperties();
+        $_ref = new \ReflectionClass('WPKG\Config');
         $_config = new Config();
-        $default = [];
+        $_props_default = [];
         // Variables by default
-        foreach ($ref_properties as $property) {
+        foreach ($_ref->getProperties() as $property) {
             if ($property->class === 'WPKG\Config') {
                 $property_name = $property->getName();
-                ($property_name[0] != "_") ? $default[$property_name] = $_config->$property_name : null;
+                ($property_name[0] != "_") ? $_props_default[$property_name] = $_config->$property_name : null;
             }
         }
 
-        print_r($default);die();
+        // Now we need read current variables
+        $_ref = new \ReflectionClass($this);
+        $_props_current = [];
+        // Current variables
+        foreach ($_ref->getProperties() as $property) {
+            // Check for class
+            if ($property->class === 'WPKG\Config') {
+                $property_name = $property->getName();
+                // Store into array variables with underline as first symbol
+                ($property_name[0] != "_") ? $_props_current[$property_name] = $this->$property_name : null;
+            }
+        }
+
+        // If some default parameters is overwrite, then add into the
+        foreach ($_props_default as $key => $value) {
+            // If default value was changed
+            if ($_props_current[$key] != $value) {
+                // Append new param element
+                $param = $this->_xml->addChild('param');
+                $param->addAttribute('name', $key);
+
+                // If value is boolean
+                if (is_bool($_props_current[$key])) $_props_current[$key] = $_props_current[$key] ? 'true' : 'false';
+                $param->addAttribute('value', $_props_current[$key]);
+            }
+        }
 
         //
         // Variables part
@@ -687,7 +711,7 @@ class Config extends XML
                 $xml_string->addAttribute('id', $string['id']);
             }
         }
-        
+
         return $this;
     }
 
