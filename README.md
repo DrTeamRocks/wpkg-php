@@ -1,6 +1,7 @@
-# WPKG config generator on PHP
+# WPKG XML configuration generator, created in PHP language
 
 Prototype of library for generating of configs for WPKG project.
+Check [links](#some-links) for more info about WPKG.
 
 ## Examples
 
@@ -24,7 +25,7 @@ $hosts
 
 ### How to create *profiles.xml* file
 
-Here the small example should showing you how to generate hosts.xml file.
+For hosts need profiles, here you can see how to generate it.
 
 ```php
 $hosts = new \WPKG\Hosts();
@@ -56,3 +57,4 @@ Few tasks what still need realize.
 
 * Main the WPKG website - https://wpkg.org/
 * WPKG documentation page - https://wpkg.org/Documentation
+* Article on Wikipedia - https://en.wikipedia.org/wiki/WPKG_(software)
