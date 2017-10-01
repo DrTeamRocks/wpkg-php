@@ -23,7 +23,7 @@ class Host extends XMLOptions implements \WPKG\Interfaces\Hosts\Host
     /**
      * Generate XML tree by data in memory
      *
-     * @param bool $multi
+     * @param bool $multi - Multiple files mode
      * @return $this
      */
     public function build(bool $multi = false)

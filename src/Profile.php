@@ -4,4 +4,4 @@
  * Class for abstraction
  * @package WPKG
  */
-class Profiles extends Classes\Profiles\Profiles {}
+class Profile extends Classes\Profiles\Profile {}

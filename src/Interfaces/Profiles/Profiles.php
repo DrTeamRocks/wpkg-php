@@ -1,16 +1,14 @@
-<?php namespace WPKG\Interfaces;
+<?php namespace WPKG\Interfaces\Profiles;
 
 interface Profiles
 {
     /**
      * Add new profile into the list
      *
-     * @param string $profile
-     * @param array|string|null $depends
-     * @param array|string|null $packages
-     * @return mixed
+     * @param Profile $profile
+     * @return object
      */
-    public function set(string $profile, $depends = null, $packages = null);
+    public function set(Profile $profile);
 
     /**
      * Get array of profiles or single profile
