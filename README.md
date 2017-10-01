@@ -6,7 +6,7 @@ Check [links](#some-links) for more info about WPKG.
 ## Table of Contents
 
 - [Examples](#examples)
-    - [How to create config.xml file](#how-to-create-config.xml-file)
+    - [How to create config.xml file](#how-to-create-configxml-file)
 - [Roadmap](#roadmap)
 - [Some links](#some-links)
 
