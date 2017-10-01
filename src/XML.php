@@ -27,16 +27,10 @@ abstract class XML
     protected $_filename;
 
     /**
-     * Workmode option, single file or multiple files
-     * @var bool
-     */
-    public $singleFile = true;
-
-    /**
-     * Path with files on filesystem
+     * Path with WPKG configuration files on the filesystem
      * @var string
      */
-    public $path;
+    public $wpkg_path;
 
     /**
      * Root constructor.
@@ -85,6 +79,7 @@ abstract class XML
      */
     public function save()
     {
+        echo $this->path . DIRECTORY_SEPARATOR . $this->_filename."\n";
         // Return bool answer about file saving operation
         return $this->prettify()->save($this->path . DIRECTORY_SEPARATOR . $this->_filename);
     }

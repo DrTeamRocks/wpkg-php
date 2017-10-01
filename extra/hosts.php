@@ -6,7 +6,7 @@ use WPKG\Hosts;
 $_hosts = new Hosts();
 
 // Set the path folder
-$_hosts->path = __DIR__ . '/tmp';
+$_hosts->wpkg_path = __DIR__ . '/tmp';
 
 // Append few hosts
 $_hosts->set('host1', 'profile1');

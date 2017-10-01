@@ -6,7 +6,7 @@ use WPKG\Config;
 $_config = new Config();
 
 // Set the path folder
-$_config->path = __DIR__ . '/tmp';
+$_config->wpkg_path = __DIR__ . '/tmp';
 
 // Overwrite some attributes
 $_config->wpkg_base = 'http://example.com';

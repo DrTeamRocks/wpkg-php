@@ -20,7 +20,7 @@ will be generated.
 
 ```php
 $config = new \WPKG\Config();
-$config->path = '/path/to/wpkg';
+$config->wpkg_path = '/path/to/wpkg';
 
 $config->wpkg_base = 'http://example.com';
 $config->quitonerror = true;
@@ -52,7 +52,7 @@ Here the small example should showing you how to generate hosts.xml file.
 
 ```php
 $hosts = new \WPKG\Hosts();
-$hosts->path = '/path/to/wpkg';
+$hosts->wpkg_path = '/path/to/wpkg';
 
 $hosts
     ->set('host1', 'profile1')
@@ -82,7 +82,7 @@ For hosts need profiles, here you can see how to generate it.
 
 ```php
 $profiles = new \WPKG\Profiles();
-$profiles->path = '/path/to/wpkg';
+$profiles->wpkg_path = '/path/to/wpkg';
 
 $profiles
     ->set('profile1', 'DotNet')
@@ -122,9 +122,12 @@ Few tasks what still need realize.
 * [ ] Generators of configuration files
     * [x] config.xml
     * [x] hosts.xml
-    * [ ] packages.xml
+    * [x] packages.xml
     * [x] profiles.xml
 * [ ] Multifiles (in folders) support
+    * [ ] hosts/
+    * [x] packages/
+    * [ ] profiles/
 * [ ] XML files reading and parsing into the class parameters
 * [ ] Write tests for all classes
 * [ ] XML validator

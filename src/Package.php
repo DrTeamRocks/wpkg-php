@@ -4,4 +4,4 @@
  * Class for abstraction
  * @package WPKG
  */
-class Config extends Classes\Config {}
+class Package extends Classes\Packages\Package {}

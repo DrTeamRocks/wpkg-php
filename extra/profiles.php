@@ -6,7 +6,7 @@ use WPKG\Profiles;
 $_profiles = new Profiles();
 
 // Set the path folder
-$_profiles->path = __DIR__ . '/tmp';
+$_profiles->wpkg_path = __DIR__ . '/tmp';
 
 // Append few hosts
 $_profiles->set('profile0');

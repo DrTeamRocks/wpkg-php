@@ -1,11 +1,11 @@
 <?php namespace WPKG\Interfaces;
 
-interface Packages
+interface Package
 {
     /**
      * Generate XML by data in memory
      *
-     * @return string
+     * @return object
      */
     public function build();
 }
