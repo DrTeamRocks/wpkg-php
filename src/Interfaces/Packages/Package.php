@@ -41,7 +41,8 @@ interface Package
     /**
      * Generate XML tree by data in memory
      *
-     * @return object
+     * @param bool $multi - Multiple files mode
+     * @return mixed
      */
-    public function build();
+    public function build(bool $multi = false);
 }

@@ -49,6 +49,23 @@ abstract class XML
     }
 
     /**
+     * Merge two XML trees
+     *
+     * @param $parent
+     * @param $child
+     */
+    protected function append(&$parent, &$child)
+    {
+        // Create new DOMElements from the two SimpleXMLElements
+        $dom1 = dom_import_simplexml($parent);
+        $dom2 = dom_import_simplexml($child);
+        // Import the  into the  document
+        $dom2 = $dom1->ownerDocument->importNode($dom2, TRUE);
+        // Append the  to
+        $dom1->appendChild($dom2);
+    }
+
+    /**
      * Make XML more readable
      *
      * @return \DOMDocument

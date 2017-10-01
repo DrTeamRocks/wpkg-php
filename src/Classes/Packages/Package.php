@@ -57,6 +57,12 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Packages\Package
     protected $_commands = [];
 
     /**
+     * For packages shoul be multifile mode
+     * @var bool
+     */
+    protected $_singleFile = false;
+
+    /**
      * Set the command of package
      *
      * @param string $type
@@ -125,21 +131,19 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Packages\Package
         return $this->_check;
     }
 
-    public function __construct()
-    {
-        parent::__construct();
-
-        // Add new child
-        $this->_xml = $this->_xml->addChild('package');
-    }
-
     /**
      * Generate XML tree by data in memory
      *
-     * @return object
+     * @param bool $multi - Multiple files mode
+     * @return mixed
      */
-    public function build()
+    public function build(bool $multi = false)
     {
+        // If multiple files mode enabled
+        (true === $multi)
+            ? $package = $this->_xml = $this->_xml->addChild('package')
+            : $package = $this->_xml->addChild('package');
+
         // Append subfolder to the wpkg path
         $this->wpkg_path = $this->wpkg_path . DIRECTORY_SEPARATOR . 'packages';
 
@@ -176,10 +180,10 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Packages\Package
                     if (isset($this->id)) $this->_filename = $this->id . '.xml';
                     break;
                 case 'reboot':
-                    $this->_xml->addAttribute($key, $_props_current[$key] ? 'true' : 'false');
+                    $package->addAttribute($key, $_props_current[$key] ? 'true' : 'false');
                     break;
                 default:
-                    $this->_xml->addAttribute($key, $_props_current[$key]);
+                    $package->addAttribute($key, $_props_current[$key]);
                     break;
             }
         }
@@ -188,7 +192,7 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Packages\Package
         // Check part
         //
         foreach ($this->_check as $check) {
-            $xml_check = $this->_xml->addChild('check');
+            $xml_check = $package->addChild('check');
             $xml_check->addAttribute('type', $check['type']);
             $xml_check->addAttribute('condition', $check['condition']);
             $xml_check->addAttribute('path', $check['path']);
@@ -197,7 +201,7 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Packages\Package
         //
         // Commands stage
         //
-        $xml_commands = $this->_xml->addChild('commands');
+        $xml_commands = $package->addChild('commands');
         foreach ($this->_commands as $command_key => $command_value) {
             $xml_command = $xml_commands->addChild('command');
             $xml_command->addAttribute('type', $command_value['type']);

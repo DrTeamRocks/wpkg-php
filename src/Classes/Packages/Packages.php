@@ -47,32 +47,15 @@ class Packages extends XMLOptions implements \WPKG\Interfaces\Packages\Packages
     }
 
     /**
-     * Merge two XML trees
-     *
-     * @param $parent
-     * @param $child
-     */
-    private function append(&$parent, &$child)
-    {
-        // Create new DOMElements from the two SimpleXMLElements
-        $dom1 = dom_import_simplexml($parent);
-        $dom2 = dom_import_simplexml($child);
-        // Import the  into the  document
-        $dom2 = $dom1->ownerDocument->importNode($dom2, TRUE);
-        // Append the  to
-        $dom1->appendChild($dom2);
-    }
-
-    /**
      * Build the packages.xml
      *
      * @return object
      */
     public function build()
     {
-        //$this->_xml
+        // Read packages array and build the XML tree
         foreach ($this->_packages as $package) {
-            $this->append($this->_xml, $package->build()->_xml);
+            $this->append($this->_xml, $package->build(true)->_xml);
         }
         return $this;
     }

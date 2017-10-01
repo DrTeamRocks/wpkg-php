@@ -4,4 +4,4 @@
  * Class for abstraction
  * @package WPKG
  */
-class Hosts extends Classes\Hosts\Hosts {}
+class Host extends Classes\Hosts\Host {}

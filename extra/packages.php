@@ -4,6 +4,7 @@ include __DIR__ . "/../vendor/autoload.php";
 use \WPKG\Package;
 use \WPKG\Packages;
 
+// Root container
 $_packages = new Packages();
 $_packages->wpkg_path = __DIR__ . '/tmp';
 
