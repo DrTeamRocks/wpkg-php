@@ -1,10 +1,10 @@
 <?php namespace WPKG\Classes\Packages;
 
 /**
- * Class for work with Packages.xml file or Packages/ folder
+ * Class for work with Packages/ folder
  *
  * @link https://wpkg.org/Packages.xml
- * @package DrTeam\WPKGs
+ * @package WPKG\Classes\Packages
  */
 class Package extends PackagesXML implements \WPKG\Interfaces\Package
 {

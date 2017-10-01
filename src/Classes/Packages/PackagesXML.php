@@ -2,6 +2,12 @@
 
 use WPKG\XML;
 
+/**
+ * Class PackagesXML abstract class with all basic parameters
+ *
+ * @link https://wpkg.org/Packages.xml
+ * @package WPKG\Classes\Packages
+ */
 abstract class PackagesXML extends XML
 {
     /**
