@@ -532,35 +532,32 @@ class Config extends XML
      *
      * @param string $name
      * @param string $value
+     * @param array $options
      * @return $this
      */
-    public function setVariable(string $name, string $value)
+    public function setVariable(string $name, string $value, array $options = [])
     {
-        $this->_variables[$name] = $value;
-        return $this;
-    }
+        // Generate hash os parameters
+        $hash = md5($name . '+' . $value . '+' . implode(',', $options));
 
-    /**
-     * Unset some variable from array of variables
-     *
-     * @param string $name
-     * @return $this
-     */
-    public function unsetVariable(string $name)
-    {
-        unset($this->_variables[$name]);
+        // If variable is not set, then add
+        if (!isset($this->_variables[$hash])) {
+            $this->_variables[$hash]['name'] = $name;
+            $this->_variables[$hash]['value'] = $value;
+            $this->_variables[$hash]['options'] = $options;
+        }
+
         return $this;
     }
 
     /**
      * Show single variable by name of all variables
      *
-     * @param string|null $name
-     * @return array|mixed
+     * @return array
      */
-    public function getVariable(string $name = null)
+    public function getVariables()
     {
-        return !empty($name) ? $this->_variables[$name] : $this->_variables;
+        return $this->_variables;
     }
 
     /**
@@ -594,21 +591,6 @@ class Config extends XML
         $key = array_search($name, $this->_languages);
         // If not found then append
         if (empty($key)) $this->_languages[] = $name;
-        return $this;
-    }
-
-    /**
-     * Unset language from list
-     *
-     * @param string $name
-     * @return $this
-     */
-    public function unsetLanguage(string $name)
-    {
-        // Need to find the value into array
-        $key = array_search($name, $this->_languages);
-        // If found then unset
-        if (!empty($key)) unset($this->_languages[$name]);
         return $this;
     }
 
@@ -692,6 +674,11 @@ class Config extends XML
             $xml_language = $xml_variables->addChild('variable');
             $xml_language->addAttribute('name', $variable['name']);
             $xml_language->addAttribute('value', $variable['value']);
+
+            // Parse another options array if is set
+            foreach ($variable['options'] as $option_key => $option_value) {
+                $xml_language->addAttribute($option_key, $option_value);
+            }
         }
 
         //

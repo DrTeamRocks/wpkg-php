@@ -9,8 +9,16 @@ $_packages = new Packages();
 $_packages->path = __DIR__ . '/tmp';
 
 // Overwrite the attributes of tha class
-$_packages->id = 'ubuntu';
-$_packages->name = 'The Ubuntu distribution on the fucking Windows OS';
+$_packages->id = 'time';
+$_packages->name = 'Time Synchronization';
+$_packages->priority = 100;
+$_packages->execute = 'always';
+
+// Small check for Windows 7
+$_packages->setCheck('host', 'os', 'windows 7');
+
+// Run command
+$_packages->setCommand('install', 'net time \\timeserver /set /yes');
 
 // Generate the XML from array in memory
 $_packages->build();
@@ -19,4 +27,4 @@ $_packages->build();
 echo $_packages->show();
 
 // Save file on filesystem
-//$_packages->save();
+$_packages->save();

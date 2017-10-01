@@ -30,7 +30,7 @@ class Packages extends XML implements Interfaces\Packages
      * Numeric version of revision, need for upgrade event
      * @var int
      */
-    public $revision = 0;
+    public $revision = 1;
 
     /**
      * Reboot after install, upgrade or remove of package
@@ -43,6 +43,12 @@ class Packages extends XML implements Interfaces\Packages
      * @var int
      */
     public $priority = 0;
+
+    /**
+     * Execution period
+     * @var string
+     */
+    public $execute = null;
 
     /**
      * Parameters for check
@@ -59,17 +65,25 @@ class Packages extends XML implements Interfaces\Packages
     /**
      * Set the command of package
      *
-     * @param string|array $include
      * @param string $type
      * @param string $cmd
+     * @param string|array|null $include
      * @param array $exit - List of exit codes [0, 3010 => true, 'any', 2]
      * @return object
      */
-    public function setCommand($include, string $type, string $cmd, array $exit = [])
+    public function setCommand(string $type, string $cmd, $include = null, array $exit = [])
     {
-        $this->_commands[$type]['include'] = $include;
-        $this->_commands[$type]['cmd'] = $cmd;
-        $this->_commands[$type]['exit'] = $exit;
+        // Generate hash of command
+        $hash = md5($type . '+' . $cmd . '+');
+
+        // If check is not set, then add
+        if (!isset($this->_commands[$hash])) {
+            $this->_commands[$hash]['type'] = $type;
+            $this->_commands[$hash]['cmd'] = $cmd;
+            $this->_commands[$hash]['include'] = $include;
+            $this->_commands[$hash]['exit'] = $exit;
+        }
+
         return $this;
     }
 
@@ -94,14 +108,14 @@ class Packages extends XML implements Interfaces\Packages
      */
     public function setCheck(string $type, string $condition, string $path)
     {
-        // Generate hash os parameters
-        $name = md5($type . '+' . $condition . '+' . $path);
+        // Generate hash of check
+        $hash = md5($type . '+' . $condition . '+' . $path);
 
         // If check is not set, then add
-        if (!isset($this->_check[$name])) {
-            $this->_check[$name]['type'] = $type;
-            $this->_check[$name]['condition'] = $condition;
-            $this->_check[$name]['path'] = $path;
+        if (!isset($this->_check[$hash])) {
+            $this->_check[$hash]['type'] = $type;
+            $this->_check[$hash]['condition'] = $condition;
+            $this->_check[$hash]['path'] = $path;
         }
 
         return $this;
@@ -146,13 +160,13 @@ class Packages extends XML implements Interfaces\Packages
 
         // Yep, reflector, because "get_class_vars" show all parameters (from parent also)
         $_ref = new \ReflectionClass('WPKG\Packages');
-        $_config = new Config();
+        $_packages = new Packages();
         $_props_default = [];
         // Variables by default
         foreach ($_ref->getProperties() as $property) {
             if ($property->class === 'WPKG\Packages') {
                 $property_name = $property->getName();
-                ($property_name[0] != "_") ? $_props_default[$property_name] = $_config->$property_name : null;
+                ($property_name[0] != "_") ? $_props_default[$property_name] = $_packages->$property_name : null;
             }
         }
 
@@ -194,9 +208,11 @@ class Packages extends XML implements Interfaces\Packages
         $xml_commands = $this->_xml->addChild('commands');
         foreach ($this->_commands as $command_key => $command_value) {
             $xml_command = $xml_commands->addChild('command');
-            $xml_command->addAttribute('include', $command_value['include']);
-            $xml_command->addAttribute('condition', $command_value['condition']);
-            $xml_command->addAttribute('path', $command_value['path']);
+            $xml_command->addAttribute('type', $command_value['type']);
+            $xml_command->addAttribute('cmd', $command_value['cmd']);
+
+            if (!empty($command_value['include']))
+                $xml_command->addAttribute('include', $command_value['include']);
 
             // Parse the exit keys
             foreach ($command_value['exit'] as $exit_key => $exit_value) {
