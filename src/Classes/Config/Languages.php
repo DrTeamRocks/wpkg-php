@@ -1,4 +1,4 @@
-<?php namespace WPKG;
+<?php namespace WPKG\Classes\Config;
 
 /**
  * Class Language for loading languages
@@ -10,7 +10,7 @@ class Languages
      * Folder where localization files stored
      * @var string
      */
-    public $path = __DIR__ . '/Languages';
+    public $path = __DIR__ . '/../../Languages';
 
     /**
      * Language constructor.

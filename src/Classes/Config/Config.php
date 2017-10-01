@@ -1,4 +1,4 @@
-<?php namespace WPKG\Classes;
+<?php namespace WPKG\Classes\Config;
 
 use \WPKG\XML;
 
@@ -630,12 +630,12 @@ class Config extends XML
     public function build()
     {
         // Yep, reflector, because "get_class_vars" show all parameters (from parent also)
-        $_ref = new \ReflectionClass('WPKG\Config');
+        $_ref = new \ReflectionClass('WPKG\Classes\Config\Config');
         $_config = new Config();
         $_props_default = [];
         // Variables by default
         foreach ($_ref->getProperties() as $property) {
-            if ($property->class === 'WPKG\Config') {
+            if ($property->class === 'WPKG\Classes\Config\Config') {
                 $property_name = $property->getName();
                 ($property_name[0] != "_") ? $_props_default[$property_name] = $_config->$property_name : null;
             }
@@ -647,7 +647,7 @@ class Config extends XML
         // Current variables
         foreach ($_ref->getProperties() as $property) {
             // Check for class
-            if ($property->class === 'WPKG\Config') {
+            if ($property->class === 'WPKG\Classes\Config\Config') {
                 $property_name = $property->getName();
                 // Store into array variables with underline as first symbol
                 ($property_name[0] != "_") ? $_props_current[$property_name] = $this->$property_name : null;
