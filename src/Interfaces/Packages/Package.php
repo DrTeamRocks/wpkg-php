@@ -1,4 +1,4 @@
-<?php namespace WPKG\Interfaces;
+<?php namespace WPKG\Interfaces\Packages;
 
 interface Package
 {

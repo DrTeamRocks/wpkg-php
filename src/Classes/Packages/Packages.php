@@ -1,6 +1,6 @@
 <?php namespace WPKG\Classes\Packages;
 
-use WPKG\Interfaces\Package;
+use WPKG\Interfaces\Packages\Package;
 
 /**
  * Class for work with Packages.xml file
@@ -8,7 +8,7 @@ use WPKG\Interfaces\Package;
  * @link https://wpkg.org/Packages.xml
  * @package WPKG\Classes\Packages
  */
-class Packages extends XMLOptions implements \WPKG\Interfaces\Packages
+class Packages extends XMLOptions implements \WPKG\Interfaces\Packages\Packages
 {
     /**
      * Name of file on filesystem

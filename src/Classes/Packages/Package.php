@@ -6,7 +6,7 @@
  * @link https://wpkg.org/Packages.xml
  * @package WPKG\Classes\Packages
  */
-class Package extends XMLOptions implements \WPKG\Interfaces\Package
+class Package extends XMLOptions implements \WPKG\Interfaces\Packages\Package
 {
     /**
      * Short name of package (used as filename, must be unique)
