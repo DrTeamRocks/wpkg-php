@@ -1,12 +1,14 @@
 <?php namespace WPKG\Classes\Packages;
 
+use WPKG\Interfaces\Package;
+
 /**
  * Class for work with Packages.xml file
  *
  * @link https://wpkg.org/Packages.xml
  * @package WPKG\Classes\Packages
  */
-class Packages extends PackagesXML
+class Packages extends PackagesXML implements \WPKG\Interfaces\Packages
 {
     /**
      * Name of file on filesystem
@@ -22,6 +24,7 @@ class Packages extends PackagesXML
 
     /**
      * Add package into the array
+     *
      * @param Package $package
      * @return object
      */
@@ -43,11 +46,17 @@ class Packages extends PackagesXML
         return !empty($id) ? $this->_packages[$id] : $this->_packages;
     }
 
-    private function append(&$xml1, &$xml2)
+    /**
+     * Merge two XML trees
+     *
+     * @param $parent
+     * @param $child
+     */
+    private function append(&$parent, &$child)
     {
         // Create new DOMElements from the two SimpleXMLElements
-        $dom1 = dom_import_simplexml($xml1);
-        $dom2 = dom_import_simplexml($xml2);
+        $dom1 = dom_import_simplexml($parent);
+        $dom2 = dom_import_simplexml($child);
         // Import the  into the  document
         $dom2 = $dom1->ownerDocument->importNode($dom2, TRUE);
         // Append the  to

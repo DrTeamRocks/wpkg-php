@@ -1,7 +1,7 @@
 <?php
 include __DIR__ . "/../vendor/autoload.php";
 
-use WPKG\Packages\Package;
+use WPKG\Package;
 
 $_packages = new Package();
 

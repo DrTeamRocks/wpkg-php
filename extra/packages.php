@@ -46,6 +46,11 @@ $pk3->setCheck('host', 'os', 'windows 7')
 
 $_packages->set($pk3);
 
+// Generate the XML from array in memory
 $_packages->build();
+
+// Show current variant of generated XML
 echo $_packages->show();
+
+// Save file on filesystem
 $_packages->save();

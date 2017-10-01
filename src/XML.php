@@ -79,9 +79,8 @@ abstract class XML
      */
     public function save()
     {
-        echo $this->path . DIRECTORY_SEPARATOR . $this->_filename."\n";
         // Return bool answer about file saving operation
-        return $this->prettify()->save($this->path . DIRECTORY_SEPARATOR . $this->_filename);
+        return $this->prettify()->save($this->wpkg_path . DIRECTORY_SEPARATOR . $this->_filename);
     }
 
     /**
@@ -91,6 +90,6 @@ abstract class XML
      */
     public function read()
     {
-        return file_get_contents($this->path . DIRECTORY_SEPARATOR . $this->_filename);
+        return file_get_contents($this->wpkg_path . DIRECTORY_SEPARATOR . $this->_filename);
     }
 }

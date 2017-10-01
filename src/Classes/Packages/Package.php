@@ -129,21 +129,27 @@ class Package extends PackagesXML implements \WPKG\Interfaces\Package
     {
         parent::__construct();
 
-        // Append subfolder to the path
-        $this->path = $this->path . DIRECTORY_SEPARATOR . 'packages';
         // Add new child
         $this->_xml = $this->_xml->addChild('package');
     }
 
+    /**
+     * Generate XML tree by data in memory
+     *
+     * @return object
+     */
     public function build()
     {
+        // Append subfolder to the wpkg path
+        $this->wpkg_path = $this->wpkg_path . DIRECTORY_SEPARATOR . 'packages';
+
         // Yep, reflector, because "get_class_vars" show all parameters (from parent also)
-        $_ref = new \ReflectionClass('WPKG\Packages\Package');
+        $_ref = new \ReflectionClass('WPKG\Classes\Packages\Package');
         $_packages = new Package();
         $_props_default = [];
         // Variables by default
         foreach ($_ref->getProperties() as $property) {
-            if ($property->class === 'WPKG\Packages\Package') {
+            if ($property->class === 'WPKG\Classes\Packages\Package') {
                 $property_name = $property->getName();
                 ($property_name[0] != "_") ? $_props_default[$property_name] = $_packages->$property_name : null;
             }
@@ -155,7 +161,7 @@ class Package extends PackagesXML implements \WPKG\Interfaces\Package
         // Current variables
         foreach ($_ref->getProperties() as $property) {
             // Check for class
-            if ($property->class === 'WPKG\Packages\Package') {
+            if ($property->class === 'WPKG\Classes\Packages\Package') {
                 $property_name = $property->getName();
                 // Store into array variables with underline as first symbol
                 ($property_name[0] != "_") ? $_props_current[$property_name] = $this->$property_name : null;
