@@ -8,7 +8,7 @@ use WPKG\Interfaces\Package;
  * @link https://wpkg.org/Packages.xml
  * @package WPKG\Classes\Packages
  */
-class Packages extends PackagesXML implements \WPKG\Interfaces\Packages
+class Packages extends XMLOptions implements \WPKG\Interfaces\Packages
 {
     /**
      * Name of file on filesystem
