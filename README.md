@@ -28,10 +28,9 @@ Check [links](#some-links) for more info about WPKG.
 
 Almost all classes have several identical methods:
 
-* build() - Execute the XML tree generation
-* show() - Print to STDOUT generated XML
-* save() - Create (replace if exist) new file on filesystem
-
+    build() - Execute the XML tree generation
+    show() - Return ready for STDOUT generated XML
+    save() - Create (replace if exist) new file on filesystem
 
     Note: Don't forget execute "build()" method before you run "show()" or "save()".
 
