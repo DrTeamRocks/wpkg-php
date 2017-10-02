@@ -671,15 +671,17 @@ class Config extends XML
         //
         // Variables part
         //
-        $xml_variables = $this->_xml->addChild('variables');
-        foreach ($this->_variables as $variable) {
-            $xml_language = $xml_variables->addChild('variable');
-            $xml_language->addAttribute('name', $variable['name']);
-            $xml_language->addAttribute('value', $variable['value']);
+        if (!empty($this->_variables)) {
+            $xml_variables = $this->_xml->addChild('variables');
+            foreach ($this->_variables as $variable) {
+                $xml_language = $xml_variables->addChild('variable');
+                $xml_language->addAttribute('name', $variable['name']);
+                $xml_language->addAttribute('value', $variable['value']);
 
-            // Parse another options array if is set
-            foreach ($variable['options'] as $option_key => $option_value) {
-                $xml_language->addAttribute($option_key, $option_value);
+                // Parse another options array if is set
+                foreach ($variable['options'] as $option_key => $option_value) {
+                    $xml_language->addAttribute($option_key, $option_value);
+                }
             }
         }
 
