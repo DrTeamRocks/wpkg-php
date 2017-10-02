@@ -15,12 +15,12 @@ Check [links](#some-links) for more info about WPKG.
     - [Hosts](#hosts)
         - [Single host](#single-host)
         - [Hosts.xml file](#hostsxml-file)
-    - [Packages](#packages)
-        - [Single package](#single-package)
-        - [Packages.xml file](#packagesxml-file)
     - [Profiles](#profiles)
         - [Single profile](#single-profile)
         - [Profiles.xml file](#profilesxml-file)
+    - [Packages](#packages)
+        - [Single package](#single-package)
+        - [Packages.xml file](#packagesxml-file)
 - [RoadMap](#roadmap)
 - [Some links](#some-links)
 
@@ -57,10 +57,11 @@ $config->wpkg_base = 'http://example.com';
 $config->quitonerror = true;
 $config->debug = true;
 
-$config->setVariable('PROG_FILES32', "%ProgramFiles%", ['architecture' => "x86"]);
-$config->setVariable('PROG_FILES32', "%ProgramFiles(x86)%", ['architecture' => "x64"]);
-$config->setVariable('DESKTOP', "%ALLUSERSPROFILE%\Desktop", ['os' => "windows xp"]);
-$config->setVariable('DESKTOP', "%PUBLIC%\Desktop", ['os' => "Windows 7"]);
+$config
+    ->setVariable('PROG_FILES32', "%ProgramFiles%", ['architecture' => "x86"])
+    ->setVariable('PROG_FILES32', "%ProgramFiles(x86)%", ['architecture' => "x64"])
+    ->setVariable('DESKTOP', "%ALLUSERSPROFILE%\Desktop", ['os' => "windows xp"])
+    ->setVariable('DESKTOP', "%PUBLIC%\Desktop", ['os' => "Windows 7"]);
 
 $config
     ->build()
@@ -176,7 +177,7 @@ $_hosts
     ->save();
 ```
 
-Result file *config.xml* into the **wpkg_path** folder
+Result file *hosts.xml* into the **wpkg_path** folder
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -189,18 +190,190 @@ Result file *config.xml* into the **wpkg_path** folder
 </hosts:wpkg>
 ```
 
+## Profiles
+
+Specifies which packages will be installed/executed for each WPKG profile.
+
+### Single profile
+
+If you want generate few profiles in separated files:
+
+```php
+$_profile = new \WPKG\Profile();
+$_profile->wpkg_path = __DIR__ . '/tmp';
+
+$_profile->id = 'profile1';
+$_profile->packages = 'DotNet';
+$_profile->depends = 'profile2';
+
+$_profile
+    ->build()
+    ->save();
+```
+
+Result file (with name like <id>.xml, eg profile1.xml like in current example) you can find into the **wpkg_path**/profiles/ subfolder:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<profiles:profiles xmlns:profiles="http://www.wpkg.org/profiles" xmlns:wpkg="http://www.wpkg.org/wpkg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wpkg.org/profiles xsd/profiles.xsd">
+  <profile id="profile1">
+    <depends profile-id="profile2"/>
+    <packages package-id="DotNet"/>
+  </profile>
+</profiles:profiles>
+```
+
+### Profiles.xml file
+
+If you need one large file with all your profiles:
+
+```php
+$_profiles = new \WPKG\Profiles();
+$_profiles->wpkg_path = __DIR__ . '/tmp';
+
+// First profile
+$pr1 = new Profile();
+$pr1->id = 'profile1';
+$pr2->packages = 'DotNet'];
+
+$_profiles->set($pr1);
+
+// Second profile
+$pr2 = new Profile();
+$pr2->id = 'profile3';
+$pr2->packages = ['Firefox', 'Chromium', 'Opera'];
+$pr2->depends = 'profile1';
+
+$_profiles->set($pr3);
+
+// Third profile
+$pr3 = new Profile();
+$pr3->id = 'profile3';
+$pr3->packages = ['SuperBank', 'OpenOffice'];
+$pr3->depends = ['profile1', 'profile2'];
+
+$_profiles->set($pr2);
+
+$_profiles
+    ->build()
+    ->save();
+```
+
+Result file *profiles.xml* into the **wpkg_path** folder
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<profiles:profiles xmlns:profiles="http://www.wpkg.org/profiles" xmlns:wpkg="http://www.wpkg.org/wpkg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wpkg.org/profiles xsd/profiles.xsd">
+  <profile id="profile1">
+    <packages package-id="DotNet"/>
+  </profile>
+  <profile id="profile2">
+    <depends profile-id="profile1"/>
+    <packages package-id="Firefox"/>
+    <packages package-id="Chromium"/>
+    <packages package-id="Opera"/>
+  </profile>
+  <profile id="profile3">
+    <depends profile-id="profile1"/>
+    <depends profile-id="profile2"/>
+    <packages package-id="SuperBank"/>
+    <packages package-id="OpenOffice"/>
+  </profile>
+</profiles:profiles>
+```
+
+## Packages
+
+Defines software packages (commands for WPKG to install/uninstall programs, etc.)
+
+### Single package
+
+If you want generate few packages in separated files:
+
+```php
+$_packages = new Package();
+$_packages->wpkg_path = __DIR__ . '/tmp';
+
+$_packages->id = 'time';
+$_packages->name = 'Time Synchronization';
+$_packages->priority = 100;
+$_packages->execute = 'always';
+
+$_packages
+    ->setCheck('host', 'os', 'windows 7')
+    ->setCommand('install', 'net time \\timeserver /set /yes');
+
+$_packages
+    ->build()
+    ->save();
+```
+
+Result file (with name like <id>.xml, eg time.xml like in current example) you can find into the **wpkg_path**/packages/ subfolder:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<packages:packages xmlns:packages="http://www.wpkg.org/packages" xmlns:wpkg="http://www.wpkg.org/wpkg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wpkg.org/packages xsd/packages.xsd">
+  <package name="Time Synchronization" revision="1" reboot="false" priority="100" execute="always">
+    <check type="host" condition="os" path="windows 7"/>
+    <commands>
+      <command type="install" cmd="net time \timeserver /set /yes"/>
+    </commands>
+  </package>
+</packages:packages>
+```
+
+### Packages.xml file
+
+If you need one large file with all your packages:
+
+```php
+$_packages = new Packages();
+$_packages->wpkg_path = __DIR__ . '/tmp';
+
+// First package
+$pk1 = new Package();
+$pk1->id = 'time';
+$pk1->name = 'Time Synchronization';
+$pk1->priority = 100;
+$pk1->execute = 'always';
+$pk1->setCheck('host', 'os', 'windows 7')
+    ->setCommand('install', 'net time \\timeserver /set /yes');
+
+$_packages->set($pk1);
+
+// Second package
+$pk2 = new Package();
+$pk2->id = 'time2';
+$pk2->name = 'Time Synchronization';
+$pk2->priority = 100;
+$pk2->execute = 'always';
+$pk2->setCheck('host', 'os', 'windows 7')
+    ->setCommand('install', 'net time \\timeserver /set /yes');
+
+$_packages->set($pk2);
+
+$_packages
+    ->build()
+    ->save();
+```
+
+Result file *packages.xml* into the **wpkg_path** folder
+
 # RoadMap
 
 Few tasks what still need realize.
 
-* [ ] Know NOT completed tasks
-    * [ ] Multiple choice in checks of package
+* [ ] Know bugs, issues and not completed tasks
+    * [ ] install/remove/uprade aliases for setCommand method of Package class
+    * [ ] Multiple choice in checks of Package class
     * [ ] Error message if recipient folder is not exist or not writable
+    * [ ] Write tests for all classes
 * [x] Generators of configuration files
     * [x] config.xml
     * [x] hosts.xml
     * [x] packages.xml
     * [x] profiles.xml
+    * [ ] settings.xml
 * [x] Multifiles (in folders) support
     * [x] hosts/
     * [x] packages/
@@ -210,13 +383,13 @@ Few tasks what still need realize.
     * [ ] Hosts
     * [ ] Packages
     * [ ] Profiles
+    * [ ] Settings
 * [ ] XML validator
     * [ ] config.xml
     * [ ] hosts.xml && hosts/
     * [ ] packages.xml && packages/
     * [ ] profiles.xml && profiles/
-* [ ] Write tests for all classes
-    * [ ] Here a lot of classes
+    * [ ] settings.xml
 
 # Some links
 
