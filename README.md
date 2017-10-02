@@ -6,7 +6,7 @@ Library written on PHP7 for generating XML files with configuration for WPKG ins
 
 Check [links](#some-links) for more info about WPKG.
 
-## Table of Contents
+# Table of Contents
 
 - [Simple how to](#simple-how-to)
     - [Config](#config)
@@ -24,7 +24,7 @@ Check [links](#some-links) for more info about WPKG.
 - [RoadMap](#roadmap)
 - [Some links](#some-links)
 
-## Simple how to
+# Simple how to
 
 Almost all classes have several identical methods:
 
@@ -37,11 +37,11 @@ Almost all classes have several identical methods:
 
 Any other examples with descriptions you can find [here](extra).
 
-### Config
+## Config
 
 Configuration settings for runtime behavior of *wpkg.js*
 
-#### *Config.xml* file
+### *Config.xml* file
 
 Using the Config class, you can override the settings, if you specified
 a value different from the default value, your parameter will be added
@@ -88,7 +88,7 @@ Result of execution:
 </config>
 ```
 
-#### Note about translations
+### Note about translations
 
 At the moment, translations (creators of the WPKG project call them languages) are available for the following languages:
 
@@ -109,11 +109,11 @@ can suggest your translation variant via [issues](https://github.com/DrTeamRocks
 Pay attention to LCID, these are unique language identifiers, a complete list
 of them you can find [here](http://www.microsoft.com/globaldev/reference/lcid-all.mspx).
 
-### Hosts
+## Hosts
 
 Mappings between machine names and profile names.
 
-#### Single host
+### Single host
 
 If you want generate few hosts in separated files:
 
@@ -152,7 +152,7 @@ Or like above, if few profiles:
 </hosts:wpkg>
 ```
 
-#### Hosts.xml file
+### Hosts.xml file
 
 If you need one large file with all your hosts:
 
@@ -190,7 +190,7 @@ Result file *config.xml* into the **wpkg_path** folder
 </hosts:wpkg>
 ```
 
-## RoadMap
+# RoadMap
 
 Few tasks what still need realize.
 
@@ -219,7 +219,7 @@ Few tasks what still need realize.
 * [ ] Write tests for all classes
     * [ ] Here a lot of classes
 
-## Some links
+# Some links
 
 * Main the WPKG website - https://wpkg.org/
 * WPKG documentation page - https://wpkg.org/Documentation
