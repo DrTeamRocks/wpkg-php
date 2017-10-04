@@ -1,3 +1,5 @@
+![WPKG Logo](https://wpkg.org/wpkg.png)
+
 # WPKG XML configuration generator
 
 Library written on PHP7 for generating XML files with configuration for WPKG installer.
