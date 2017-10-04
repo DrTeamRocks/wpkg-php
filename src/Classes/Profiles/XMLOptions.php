@@ -1,6 +1,6 @@
 <?php namespace WPKG\Classes\Profiles;
 
-use WPKG\XML;
+use WPKG\Classes\XML;
 
 /**
  * Class PackagesXML class with all basic parameters

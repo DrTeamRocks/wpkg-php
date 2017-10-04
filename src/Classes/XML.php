@@ -1,4 +1,4 @@
-<?php namespace WPKG;
+<?php namespace WPKG\Classes;
 
 abstract class XML
 {

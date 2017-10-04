@@ -1,21 +1,13 @@
 <?php namespace WPKG\Classes\Config;
 
-use \WPKG\XML;
-
 /**
  * Class for work with Config.xml file within the same directory as you place wpkg.js.
  *
  * @link https://wpkg.org/Config.xml
  * @package DrTeam\WPKG
  */
-class Config extends XML
+class Config extends XMLOptions
 {
-    /**
-     * Current namespace
-     * @var string
-     */
-    protected $_root = 'config';
-
     /**
      * Name of file on filesystem
      * @var string
@@ -582,6 +574,12 @@ class Config extends XML
     private $_languages = ['english', 'french', 'german', 'italian', 'russian', 'spanish'];
 
     /**
+     * Folder where localization files stored
+     * @var string
+     */
+    public $languages_path = __DIR__ . '/../../Languages';
+
+    /**
      * Append new language
      *
      * @param string $name
@@ -604,22 +602,6 @@ class Config extends XML
     public function getLanguages()
     {
         return $this->_languages;
-    }
-
-    /**
-     * Hosts constructor.
-     */
-    public function __construct()
-    {
-        // List of attributes
-        $this->_root_attributes = [
-            'xmlns:profiles' => 'http://www.wpkg.org/config',
-            'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-            'xsi:schemaLocation' => 'http://www.wpkg.org/config xsd/config.xsd'
-        ];
-
-        // Call the parent class now
-        parent::__construct();
     }
 
     /**
@@ -689,7 +671,7 @@ class Config extends XML
         // Languages part
         //
         $xml_languages = $this->_xml->addChild('languages');
-        $_languages = new Languages();
+        $_languages = new Languages($this->languages_path);
         foreach ($this->_languages as $language) {
             // For first we need a language element
             $_language = $_languages->load($language);

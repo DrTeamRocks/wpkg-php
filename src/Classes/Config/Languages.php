@@ -7,7 +7,7 @@
 class Languages
 {
     /**
-     * Folder where localization files stored
+     * Default path with languages
      * @var string
      */
     public $path = __DIR__ . '/../../Languages';
@@ -31,6 +31,6 @@ class Languages
      */
     public function load(string $name)
     {
-        return include $this->path . '/' . $name . '.php';
+        return include $this->path . DIRECTORY_SEPARATOR . $name . '.php';
     }
 }

@@ -1,4 +1,4 @@
-<?php namespace WPKG\Classes\Hosts;
+<?php namespace WPKG\Classes\Config;
 
 use WPKG\Classes\XML;
 
@@ -14,16 +14,15 @@ class XMLOptions extends XML
      * Current namespace
      * @var string
      */
-    protected $_root = 'hosts:wpkg';
+    protected $_root = 'config';
 
     /**
      * List of attributes
      * @var array
      */
     protected $_root_attributes = [
-        'xmlns:hosts' => 'http://www.wpkg.org/hosts',
-        'xmlns:wpkg' => 'http://www.wpkg.org/wpkg',
+        'xmlns:profiles' => 'http://www.wpkg.org/config',
         'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-        'xsi:schemaLocation' => 'http://www.wpkg.org/hosts xsd/hosts.xsd'
+        'xsi:schemaLocation' => 'http://www.wpkg.org/config xsd/config.xsd'
     ];
 }
