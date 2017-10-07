@@ -1,5 +1,5 @@
 {
-    "name": "drteam/wpkg-php",
+    "name": "wpkg/wpkg-php",
     "description": "WPKG config generator on PHP",
     "homepage": "https://wpkg.org/",
     "keywords": [
