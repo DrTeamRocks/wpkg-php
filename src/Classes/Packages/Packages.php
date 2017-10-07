@@ -39,7 +39,7 @@ class Packages extends XMLOptions implements \WPKG\Interfaces\Packages\Packages
      * Get package by package-id or all packages
      *
      * @param string $id
-     * @return array
+     * @return array|Package - Return array of packages or single profile
      */
     public function get(string $id = null)
     {

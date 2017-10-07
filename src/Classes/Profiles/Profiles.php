@@ -37,11 +37,11 @@ class Profiles extends XMLOptions implements \WPKG\Interfaces\Profiles\Profile
      * Get array of profiles or single profile
      *
      * @param string|null $id - Profile ID
-     * @return array|string
+     * @return array|Profile - Return array of profiles or single profile
      */
     public function get(string $id = null)
     {
-        return !empty($profile) ? $this->_profiles[$id] : $this->_profiles;
+        return !empty($id) ? $this->_profiles[$id] : $this->_profiles;
     }
 
     /**

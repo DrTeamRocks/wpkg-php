@@ -37,7 +37,7 @@ class Hosts extends XMLOptions implements \WPKG\Interfaces\Hosts\Hosts
      * Get array of hosts or single host
      *
      * @param string|null $hostname
-     * @return array|string
+     * @return array|Host - Return array of hosts or single host
      */
     public function get(string $hostname = null)
     {

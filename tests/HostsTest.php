@@ -19,19 +19,33 @@ class HostsTest extends TestCase
     public function testAdd()
     {
         $hosts = new Hosts();
-        $this->assertTrue(is_object($hosts->set('test1', 'profile1')));
+
+        $host = new Host();
+        $host->name = 'test1';
+        $host->profileId = 'profile1';
+
+        $this->assertTrue(is_object($hosts->set($host)));
     }
 
     public function testGet()
     {
         $hosts = new Hosts();
-        $hosts->set('test1', 'profile1');
-        $this->assertTrue(is_string($hosts->get('test1')));
-        $this->assertEquals('profile1', $hosts->get('test1'));
 
-        $hosts->set('test2', ['one', 'two', 'three']);
-        $this->assertTrue(is_array($hosts->get('test2')));
-        $this->assertEquals(['one', 'two', 'three'], $hosts->get('test2'));
+        $h1 = new Host();
+        $h1->name = 'test1';
+        $h1->profileId = 'profile1';
+
+        $hosts->set($h1);
+        $this->assertTrue(is_object($hosts->get('test1')));
+        $this->assertEquals('profile1', $hosts->get('test1')->profileId);
+
+        $h2 = new Host();
+        $h2->name = 'test2';
+        $h2->profileId = ['one', 'two', 'three'];
+
+        $hosts->set($h2);
+        $this->assertTrue(is_object($hosts->get('test2')));
+        $this->assertEquals(['one', 'two', 'three'], $hosts->get('test2')->profileId);
 
         $this->assertTrue(is_array($hosts->get()));
         $this->assertEquals(2, count($hosts->get()));
@@ -40,7 +54,12 @@ class HostsTest extends TestCase
     public function testBuild()
     {
         $hosts = new Hosts();
-        $hosts->set('test1', 'profile1');
+
+        $host = new Host();
+        $host->name = 'test1';
+        $host->profileId = 'profile1';
+
+        $hosts->set($host);
         $this->assertTrue(is_object($hosts->build()));
     }
 
