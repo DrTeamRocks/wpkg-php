@@ -8,6 +8,9 @@ Library written on PHP7 for generating XML files with configuration for WPKG ins
 
 Check [links](#some-links) for more info about WPKG.
 
+If you need Active Directory support for generation `hosts.xml` from domain PCs you can
+look at [WPKG-AD project](https://github.com/wpkg/wpkg-php-ad), which based on this library. 
+
 # Table of Contents
 
 - [Simple how to](#simple-how-to)
@@ -24,6 +27,7 @@ Check [links](#some-links) for more info about WPKG.
     - [Packages](#packages)
         - [Single package](#single-package)
         - [Packages.xml file](#packagesxml-file)
+- [Get Support](#get-support)
 - [RoadMap](#roadmap)
 - [Some links](#some-links)
 
@@ -414,6 +418,12 @@ $_packages
 ```
 
 Result file *packages.xml* into the **wpkg_path** folder
+
+# Get Support!
+
+* [Discord](https://discord.gg/vRjVfHK) - Join us on Discord.
+* [GitHub Issues](https://github.com/wpkg/wpkg-php/issues) - Got issues? Please tell us!
+* [Roadmap](https://github.com/orgs/wpkg/projects/1) - Want to contribute? Get involved!
 
 # RoadMap
 
