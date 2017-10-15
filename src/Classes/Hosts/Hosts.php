@@ -47,7 +47,7 @@ class Hosts extends XMLOptions implements \WPKG\Interfaces\Hosts\Hosts
     /**
      * Generate XML by data in memory
      *
-     * @return object
+     * @return Hosts
      */
     public function build()
     {

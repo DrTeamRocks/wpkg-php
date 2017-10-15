@@ -15,10 +15,22 @@ abstract class XML
     protected $_root_attributes;
 
     /**
+     * Path to the XSD file
+     * @var string
+     */
+    protected $_xsd;
+
+    /**
      * Object of XML class
      * @var \SimpleXMLElement
      */
     protected $_xml;
+
+    /**
+     * Object of DOM class
+     * @var \DOMDocument
+     */
+    protected $_dom;
 
     /**
      * Name of XML file
@@ -37,6 +49,9 @@ abstract class XML
      */
     public function __construct()
     {
+        // Build new Dom object
+        $this->_dom = new \DOMDocument("1.0", "UTF-8");
+
         // Build new xml
         $this->_xml = new \SimpleXMLElement("<?xml version=\"1.0\" encoding=\"UTF-8\"?><$this->_root/>", LIBXML_NOERROR);
 
@@ -70,9 +85,9 @@ abstract class XML
      *
      * @return \DOMDocument
      */
-    private function prettify() {
-        // Yeah, I know it's a crap, but only DOMDocument can make XML more pretty
-        $dom = new \DOMDocument('1.0');
+    private function prettify()
+    {
+        $dom = $this->_dom;
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
         $dom->loadXML($this->_xml->asXML());

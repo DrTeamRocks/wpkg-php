@@ -26,4 +26,10 @@ class XMLOptions extends XML
         'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
         'xsi:schemaLocation' => 'http://www.wpkg.org/profiles xsd/profiles.xsd'
     ];
+
+    /**
+     * XSD schema of XML
+     * @var string
+     */
+    protected $_xsd = __DIR__ . '/../../../vendor/wpkg/wpkg-js/xsd/profiles.xsd';
 }
