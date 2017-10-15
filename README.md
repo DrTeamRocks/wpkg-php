@@ -423,40 +423,7 @@ Result file *packages.xml* into the **wpkg_path** folder
 
 * [Discord](https://discord.gg/vRjVfHK) - Join us on Discord.
 * [GitHub Issues](https://github.com/wpkg/wpkg-php/issues) - Got issues? Please tell us!
-* [Roadmap](https://github.com/orgs/wpkg/projects/1) - Want to contribute? Get involved!
-
-# RoadMap
-
-Few tasks what still need realize.
-
-* [ ] Know bugs, issues and not completed tasks
-    * [ ] install/remove/uprade aliases for setCommand method of Package class
-    * [ ] Multiple choice in checks of Package class
-    * [ ] Error message if recipient folder is not exist or not writable
-    * [ ] Write tests for all classes
-* [x] Generators of configuration files
-    * [x] config.xml
-    * [x] hosts.xml
-    * [x] packages.xml
-    * [x] profiles.xml
-    * [ ] settings.xml
-* [x] Multifiles (in folders) support
-    * [x] hosts/
-        * [ ] Hosts from Active Directory
-    * [x] packages/
-    * [x] profiles/
-* [ ] Importer
-    * [ ] Config
-    * [ ] Hosts
-    * [ ] Packages
-    * [ ] Profiles
-    * [ ] Settings
-* [ ] XML validator
-    * [ ] config.xml
-    * [ ] hosts.xml && hosts/
-    * [ ] packages.xml && packages/
-    * [ ] profiles.xml && profiles/
-    * [ ] settings.xml
+* [Roadmap](https://github.com/wpkg/wpkg-php/wiki) - Want to contribute? Get involved!
 
 # Some links
 
