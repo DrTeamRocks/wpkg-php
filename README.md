@@ -13,7 +13,7 @@ look at [WPKG-AD project](https://github.com/wpkg/wpkg-php-ad), which based on t
 
 # Table of Contents
 
-- [Simple how to](#simple-how-to)
+- [How to create XML](#how-to-create-xml)
     - [Config](#config)
         - [Config.xml file](#configxml-file)
         - [Note about translations](#note-about-translations)
@@ -27,11 +27,13 @@ look at [WPKG-AD project](https://github.com/wpkg/wpkg-php-ad), which based on t
     - [Packages](#packages)
         - [Single package](#single-package)
         - [Packages.xml file](#packagesxml-file)
+- [How to import existed XML](#how-to-import-existed-xml)
+    - [Import Config.xml file](#import-configxml-file)
 - [Get Support](#get-support)
 - [RoadMap](#roadmap)
 - [Some links](#some-links)
 
-# Simple how to
+# How to create XML
 
 Almost all classes have several identical methods:
 
@@ -418,6 +420,23 @@ $_packages
 ```
 
 Result file *packages.xml* into the **wpkg_path** folder
+
+# How to import existed XML
+
+## Import Config.xml file
+
+First you need enable the importer class
+
+```php
+use WPKG\Importers\Hosts;
+
+$_hosts = new Hosts();
+$_hosts->wpkg_path = __DIR__ . '/tmp';
+$_hosts->load();
+```
+
+Now into the `$_hosts` variable you can find the `\WPKG\Config` object.
+So you can do with this object all what [this class](#configxml-file) can.
 
 # Get Support!
 
