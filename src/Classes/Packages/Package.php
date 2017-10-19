@@ -88,6 +88,62 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Packages\Package
     }
 
     /**
+     * Alias for setCommand(install)
+     *
+     * @param string $cmd
+     * @param null $include
+     * @param array $exit
+     * @return object
+     */
+    public function install(string $cmd, $include = null, array $exit = [])
+    {
+        $this->setCommand('install', $cmd, $include, $exit);
+        return $this;
+    }
+
+    /**
+     * Alias for setCommand(upgrade)
+     *
+     * @param string $cmd
+     * @param null $include
+     * @param array $exit
+     * @return object
+     */
+    public function upgrade(string $cmd, $include = null, array $exit = [])
+    {
+        $this->setCommand('upgrade', $cmd, $include, $exit);
+        return $this;
+    }
+
+    /**
+     * Alias for setCommand(downgrade)
+     *
+     * @param string $cmd
+     * @param null $include
+     * @param array $exit
+     * @return object
+     */
+    public function downgrade(string $cmd, $include = null, array $exit = [])
+    {
+        $this->setCommand('downgrade', $cmd, $include, $exit);
+        return $this;
+    }
+
+    /**
+     * Alias for setCommand(remove)
+     *
+     * @param string $cmd
+     * @param null $include
+     * @param array $exit
+     * @return object
+     */
+    public function remove(string $cmd, $include = null, array $exit = [])
+    {
+        $this->setCommand('remove', $cmd, $include, $exit);
+        return $this;
+    }
+
+    /**
      * Get all commands or single command for current package
      *
      * @param string|null $type
