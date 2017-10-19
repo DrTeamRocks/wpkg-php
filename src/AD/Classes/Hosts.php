@@ -1,7 +1,7 @@
 <?php namespace WPKG\AD\Classes;
 
 use \Adldap\Adldap;
-use \Adldap\Exceptions\AdldapException;
+use \Adldap\AdldapException;
 
 class Hosts extends \WPKG\Hosts
 {
@@ -58,11 +58,11 @@ class Hosts extends \WPKG\Hosts
             // If connection is empty
             if (empty($this->_adldap)) {
                 // Create adLDAP object by parameters from config
-                $this->_adldap = new adLDAP($this->_config['adldap']);
+                $this->_adldap = new Adldap($this->_config['adldap']);
             }
             // Get computers from LDAP
             $this->loadComputers();
-        } catch (adLDAPException $e) {
+        } catch (AdldapException $e) {
             die($e);
         }
     }
