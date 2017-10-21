@@ -57,10 +57,40 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Packages\Package
     protected $_commands = [];
 
     /**
+     * List of variables
+     * @var array
+     */
+    protected $_variables = [];
+
+    /**
      * For packages shoul be multifile mode
      * @var bool
      */
     protected $_singleFile = false;
+
+    /**
+     * Set some variable
+     *
+     * @param string $name
+     * @param string $value
+     * @return $this
+     */
+    public function setVariable(string $name, string $value)
+    {
+        $this->_variables[$name] = $value;
+        return $this;
+    }
+
+    /**
+     * Get some variable or array of variables
+     *
+     * @param string $name
+     * @return array|string
+     */
+    public function getVariable($name = null)
+    {
+        return empty($name) ? $this->_variables : $this->_variables[$name];
+    }
 
     /**
      * Set the command of package
@@ -151,7 +181,7 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Packages\Package
      */
     public function getCommand(string $type = null)
     {
-        return (empty($type)) ? $this->_commands : $this->_commands[$type];
+        return empty($type) ? $this->_commands : $this->_commands[$type];
     }
 
     /**
@@ -242,6 +272,15 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Packages\Package
                     $package->addAttribute($key, $_props_current[$key]);
                     break;
             }
+        }
+
+        //
+        // Variables part
+        //
+        foreach ($this->_variables as $key => $value) {
+            $xml_variable = $package->addChild('variable');
+            $xml_variable->addAttribute('name', $key);
+            $xml_variable->addAttribute('value', $value);
         }
 
         //
