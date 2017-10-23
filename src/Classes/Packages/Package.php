@@ -63,12 +63,6 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Packages\Package
     protected $_variables = [];
 
     /**
-     * For packages shoul be multifile mode
-     * @var bool
-     */
-    protected $_singleFile = false;
-
-    /**
      * Set some variable
      *
      * @param string $name
@@ -115,6 +109,17 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Packages\Package
         }
 
         return $this;
+    }
+
+    /**
+     * Get all commands or single command for current package
+     *
+     * @param string|null $type
+     * @return array
+     */
+    public function getCommand(string $type = null)
+    {
+        return empty($type) ? $this->_commands : $this->_commands[$type];
     }
 
     /**
@@ -171,17 +176,6 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Packages\Package
     {
         $this->setCommand('remove', $cmd, $include, $exit);
         return $this;
-    }
-
-    /**
-     * Get all commands or single command for current package
-     *
-     * @param string|null $type
-     * @return array
-     */
-    public function getCommand(string $type = null)
-    {
-        return empty($type) ? $this->_commands : $this->_commands[$type];
     }
 
     /**
