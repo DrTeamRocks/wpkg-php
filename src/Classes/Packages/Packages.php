@@ -1,6 +1,7 @@
 <?php namespace WPKG\Classes\Packages;
 
-use WPKG\Interfaces\Packages\Package;
+use \WPKG\Interfaces\Package as PackageInterface;
+use \WPKG\Interfaces\Packages as PackagesInterface;
 
 /**
  * Class for work with Packages.xml file
@@ -8,7 +9,7 @@ use WPKG\Interfaces\Packages\Package;
  * @link https://wpkg.org/Packages.xml
  * @package WPKG\Classes\Packages
  */
-class Packages extends XMLOptions implements \WPKG\Interfaces\Packages\Packages
+class Packages extends XMLOptions implements PackagesInterface
 {
     /**
      * Name of file on filesystem
@@ -25,10 +26,10 @@ class Packages extends XMLOptions implements \WPKG\Interfaces\Packages\Packages
     /**
      * Add package into the array
      *
-     * @param Package $package
+     * @param PackageInterface $package
      * @return object
      */
-    public function set(Package $package)
+    public function set(PackageInterface $package)
     {
         // Store package object
         $this->_packages[$package->id] = $package;

@@ -1,12 +1,14 @@
 <?php namespace WPKG\Classes\Profiles;
 
+use \WPKG\Interfaces\Profile as ProfileInterface;
+
 /**
  * Class for work with Profiles.xml file or Profiles/ folder
  *
  * @link https://wpkg.org/Profiles.xml
  * @package WPKG\Classes\Profiles
  */
-class Profile extends XMLOptions implements \WPKG\Interfaces\Profiles\Profile
+class Profile extends XMLOptions implements ProfileInterface
 {
     /**
      * Name of profile

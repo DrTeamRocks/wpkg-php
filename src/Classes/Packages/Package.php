@@ -6,7 +6,7 @@
  * @link https://wpkg.org/Packages.xml
  * @package WPKG\Classes\Packages
  */
-class Package extends XMLOptions implements \WPKG\Interfaces\Packages\Package
+class Package extends XMLOptions implements \WPKG\Interfaces\Package
 {
     /**
      * Short name of package (used as filename, must be unique)
@@ -257,7 +257,10 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Packages\Package
             switch ($key) {
                 case 'id':
                     // If id is set then name of file was changes
-                    if (isset($this->id)) $this->_filename = $this->id . '.xml';
+                    if (isset($this->id)) {
+                        $this->_filename = $this->id . '.xml';
+                        $package->addAttribute($key, $_props_current[$key]);
+                    }
                     break;
                 case 'reboot':
                     $package->addAttribute($key, $_props_current[$key] ? 'true' : 'false');

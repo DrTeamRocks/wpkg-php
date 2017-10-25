@@ -1,12 +1,14 @@
 <?php namespace WPKG\Classes\Hosts;
 
+use \WPKG\Interfaces\Host as HostInterface;
+
 /**
  * Class for work with Hosts.xml file or Hosts/ folder
  *
  * @link https://wpkg.org/Hosts.xml
  * @package WPKG\Classes\Hosts
  */
-class Host extends XMLOptions implements \WPKG\Interfaces\Hosts\Host
+class Host extends XMLOptions implements HostInterface
 {
     /**
      * Default hostname if not set

@@ -1,6 +1,5 @@
 <?php namespace WPKG\Importers;
 
-use \WPKG\Classes\Hosts\XMLOptions;
 use \WPKG\Classes\Hosts\Host as XML_Host;
 use \WPKG\Classes\Hosts\Hosts as XML_Hosts;
 

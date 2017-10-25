@@ -1,4 +1,4 @@
-<?php namespace WPKG\Interfaces\Hosts;
+<?php namespace WPKG\Interfaces;
 
 use \WPKG\Classes\Hosts\Host;
 

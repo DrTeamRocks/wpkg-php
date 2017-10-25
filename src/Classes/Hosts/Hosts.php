@@ -6,7 +6,7 @@
  * @link https://wpkg.org/Hosts.xml
  * @package WPKG\Classes\Hosts
  */
-class Hosts extends XMLOptions implements \WPKG\Interfaces\Hosts\Hosts
+class Hosts extends XMLOptions implements \WPKG\Interfaces\Hosts
 {
     /**
      * Name of file on filesystem

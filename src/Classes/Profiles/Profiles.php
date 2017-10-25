@@ -1,12 +1,15 @@
 <?php namespace WPKG\Classes\Profiles;
 
+use \WPKG\Interfaces\Profile as ProfileInterface;
+use \WPKG\Interfaces\Profiles as ProfilesInterface;
+
 /**
  * Class for work with Profiles.xml file or Profiles/ folder
  *
  * @link https://wpkg.org/Profiles.xml
  * @package WPKG\Classes\Profiles
  */
-class Profiles extends XMLOptions implements \WPKG\Interfaces\Profiles\Profile
+class Profiles extends XMLOptions implements ProfilesInterface
 {
     /**
      * Name of file on filesystem
@@ -23,10 +26,10 @@ class Profiles extends XMLOptions implements \WPKG\Interfaces\Profiles\Profile
     /**
      * Add new profile into the list
      *
-     * @param Profile $profile
+     * @param ProfileInterface $profile
      * @return object
      */
-    public function set(Profile $profile)
+    public function set(ProfileInterface $profile)
     {
         // Profile is array of values
         $this->_profiles[$profile->id] = $profile;

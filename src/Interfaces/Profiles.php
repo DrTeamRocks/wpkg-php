@@ -1,4 +1,4 @@
-<?php namespace WPKG\Interfaces\Profiles;
+<?php namespace WPKG\Interfaces;
 
 interface Profiles
 {

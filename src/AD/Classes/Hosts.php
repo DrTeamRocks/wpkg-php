@@ -3,7 +3,7 @@
 use \Adldap\Adldap;
 use \Adldap\AdldapException;
 
-class Hosts extends \WPKG\Hosts
+class Hosts extends \WPKG\Hosts implements \WPKG\Interfaces\Hosts
 {
     /**
      * Add some ldap methods from trait class
