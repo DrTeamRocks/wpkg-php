@@ -1,4 +1,4 @@
-<?php namespace WPKG;
+<?php namespace WPKG\Classes\Profiles;
 
 use PHPUnit\Framework\TestCase;
 
@@ -6,7 +6,7 @@ class ProfilesTest extends TestCase
 {
     public $path = __DIR__ . '/../extra/tmp';
 
-    public function testConstruct()
+    public function test__construct()
     {
         try {
             $profiles = new Profiles();

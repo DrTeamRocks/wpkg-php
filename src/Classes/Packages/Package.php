@@ -45,10 +45,10 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Package
     public $execute = null;
 
     /**
-     * Parameters for check
+     * Parameters for checks
      * @var array
      */
-    protected $_check = [];
+    protected $_checks = [];
 
     /**
      * List of commands
@@ -65,11 +65,11 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Package
     /**
      * Set some variable
      *
-     * @param string $name
-     * @param string $value
-     * @return $this
+     * @param   string $name
+     * @param   string $value
+     * @return  \WPKG\Interfaces\Package
      */
-    public function setVariable(string $name, string $value)
+    public function setVariable(string $name, string $value): \WPKG\Interfaces\Package
     {
         $this->_variables[$name] = $value;
         return $this;
@@ -78,10 +78,10 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Package
     /**
      * Get some variable or array of variables
      *
-     * @param string $name
-     * @return array|string
+     * @param   string $name - Name of required variable
+     * @return  array|string
      */
-    public function getVariable($name = null)
+    public function getVariables(string $name = null)
     {
         return empty($name) ? $this->_variables : $this->_variables[$name];
     }
@@ -89,24 +89,19 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Package
     /**
      * Set the command of package
      *
-     * @param string $type
-     * @param string $cmd
-     * @param string|array|null $include
-     * @param array $exit - List of exit codes [0, 3010 => true, 'any', 2]
-     * @return object
+     * @param   string $type
+     * @param   string $cmd
+     * @param   string|array|null $include
+     * @param   array $exit - List of exit codes [0, 3010 => true, 'any', 2]
+     * @return  Package
      */
-    public function setCommand(string $type, string $cmd, $include = null, array $exit = [])
+    public function setCommand(string $type, string $cmd, $include = null, array $exit = []): \WPKG\Interfaces\Package
     {
-        // Generate hash of command
-        $hash = md5($type . '+' . $cmd . '+');
-
-        // If check is not set, then add
-        if (!isset($this->_commands[$hash])) {
-            $this->_commands[$hash]['type'] = $type;
-            $this->_commands[$hash]['cmd'] = $cmd;
-            $this->_commands[$hash]['include'] = $include;
-            $this->_commands[$hash]['exit'] = $exit;
-        }
+        $this->_commands[$type][] = [
+            'cmd' => $cmd,
+            'include' => $include,
+            'exit' => $exit
+        ];
 
         return $this;
     }
@@ -114,89 +109,28 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Package
     /**
      * Get all commands or single command for current package
      *
-     * @param string|null $type
-     * @return array
+     * @param   string|null $type
+     * @return  array
      */
-    public function getCommand(string $type = null)
+    public function getCommands(string $type = null): array
     {
         return empty($type) ? $this->_commands : $this->_commands[$type];
     }
 
     /**
-     * Alias for setCommand(install)
-     *
-     * @param string $cmd
-     * @param null $include
-     * @param array $exit
-     * @return object
-     */
-    public function install(string $cmd, $include = null, array $exit = [])
-    {
-        $this->setCommand('install', $cmd, $include, $exit);
-        return $this;
-    }
-
-    /**
-     * Alias for setCommand(upgrade)
-     *
-     * @param string $cmd
-     * @param null $include
-     * @param array $exit
-     * @return object
-     */
-    public function upgrade(string $cmd, $include = null, array $exit = [])
-    {
-        $this->setCommand('upgrade', $cmd, $include, $exit);
-        return $this;
-    }
-
-    /**
-     * Alias for setCommand(downgrade)
-     *
-     * @param string $cmd
-     * @param null $include
-     * @param array $exit
-     * @return object
-     */
-    public function downgrade(string $cmd, $include = null, array $exit = [])
-    {
-        $this->setCommand('downgrade', $cmd, $include, $exit);
-        return $this;
-    }
-
-    /**
-     * Alias for setCommand(remove)
-     *
-     * @param string $cmd
-     * @param null $include
-     * @param array $exit
-     * @return object
-     */
-    public function remove(string $cmd, $include = null, array $exit = [])
-    {
-        $this->setCommand('remove', $cmd, $include, $exit);
-        return $this;
-    }
-
-    /**
      * Setter of check value
      *
-     * @param string $type
-     * @param string $condition
-     * @param string $path
-     * @return $this
+     * @param   string $type
+     * @param   string $condition
+     * @param   string $path
+     * @return  \WPKG\Interfaces\Package
      */
-    public function setCheck(string $type, string $condition, string $path)
+    public function setCheck(string $type, string $condition, string $path): \WPKG\Interfaces\Package
     {
-        // Generate hash of check
-        $hash = md5($type . '+' . $condition . '+' . $path);
-
-        // If check is not set, then add
-        if (!isset($this->_check[$hash])) {
-            $this->_check[$hash]['type'] = $type;
-            $this->_check[$hash]['condition'] = $condition;
-            $this->_check[$hash]['path'] = $path;
-        }
+        $this->_checks[$type][] = [
+            'condition' => $condition,
+            'path' => $path
+        ];
 
         return $this;
     }
@@ -204,20 +138,21 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Package
     /**
      * Getter of checks
      *
-     * @return array
+     * @param   string|null $type
+     * @return  array
      */
-    public function getChecks()
+    public function getChecks(string $type = null): array
     {
-        return $this->_check;
+        return empty($type) ? $this->_checks : $this->_checks[$type];
     }
 
     /**
      * Generate XML tree by data in memory
      *
-     * @param bool $multi - Multiple files mode
-     * @return mixed
+     * @param   bool $multi - Multiple files mode
+     * @return  \WPKG\Interfaces\Package
      */
-    public function build(bool $multi = false)
+    public function build(bool $multi = false): \WPKG\Interfaces\Package
     {
         // If multiple files mode enabled
         (true === $multi)
@@ -274,7 +209,7 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Package
         //
         // Variables part
         //
-        foreach ($this->_variables as $key => $value) {
+        foreach ($this->getVariables() as $key => $value) {
             $xml_variable = $package->addChild('variable');
             $xml_variable->addAttribute('name', $key);
             $xml_variable->addAttribute('value', $value);
@@ -283,33 +218,38 @@ class Package extends XMLOptions implements \WPKG\Interfaces\Package
         //
         // Check part
         //
-        foreach ($this->_check as $check) {
+        foreach ($this->getChecks() as $checks_key => $checks_value) {
             $xml_check = $package->addChild('check');
-            $xml_check->addAttribute('type', $check['type']);
-            $xml_check->addAttribute('condition', $check['condition']);
-            $xml_check->addAttribute('path', $check['path']);
+            foreach ($checks_value as $checks_value_item) {
+                $xml_check->addAttribute('type', $checks_key);
+                $xml_check->addAttribute('condition', $checks_value_item['condition']);
+                $xml_check->addAttribute('path', $checks_value_item['path']);
+            }
         }
 
         //
         // Commands stage
         //
         $xml_commands = $package->addChild('commands');
-        foreach ($this->_commands as $command_key => $command_value) {
+        foreach ($this->getCommands() as $command_key => $command_value) {
             $xml_command = $xml_commands->addChild('command');
-            $xml_command->addAttribute('type', $command_value['type']);
-            $xml_command->addAttribute('cmd', $command_value['cmd']);
 
-            if (!empty($command_value['include']))
-                $xml_command->addAttribute('include', $command_value['include']);
+            foreach ($command_value as $command_value_item) {
+                $xml_command->addAttribute('type', $command_key);
+                $xml_command->addAttribute('cmd', $command_value_item['cmd']);
 
-            // Parse the exit keys
-            foreach ($command_value['exit'] as $exit_key => $exit_value) {
-                $xml_command_exit = $xml_command->addChild('exit');
-                $xml_command_exit->addAttribute('code', $exit_key);
+                if (!empty($command_value_item['include']))
+                    $xml_command->addAttribute('include', $command_value_item['include']);
 
-                if (!empty($exit_value))
-                    $xml_command_exit->addAttribute('reboot', $exit_value ? 'true' : 'false');
+                // Parse the exit keys
+                foreach ($command_value_item['exit'] as $exit_key => $exit_value) {
+                    $xml_command_exit = $xml_command->addChild('exit');
+                    $xml_command_exit->addAttribute('code', $exit_key);
 
+                    if (!empty($exit_value))
+                        $xml_command_exit->addAttribute('reboot', $exit_value ? 'true' : 'false');
+
+                }
             }
         }
 

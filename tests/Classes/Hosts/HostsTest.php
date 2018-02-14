@@ -1,4 +1,4 @@
-<?php namespace WPKG;
+<?php namespace WPKG\Classes\Hosts;
 
 use PHPUnit\Framework\TestCase;
 
@@ -6,7 +6,7 @@ class HostsTest extends TestCase
 {
     public $path = __DIR__ . '/../extra/tmp';
 
-    public function testConstruct()
+    public function test__construct()
     {
         try {
             $hosts = new Hosts();
