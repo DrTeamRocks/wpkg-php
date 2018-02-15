@@ -1,54 +1,15 @@
 <?php namespace WPKG\Importers;
 
-use \WPKG\Classes\Hosts\Host as XML_Host;
-use \WPKG\Classes\Hosts\Hosts as XML_Hosts;
-
-class Hosts extends XML_Hosts
+class Hosts extends \WPKG\Classes\Hosts\Hosts
 {
     /**
-     * Include DOM errors
+     * Include extensions of class
      */
-    use Errors;
+    use Errors, Import;
 
     /**
-     * Load the document
-     * @return Hosts
-     */
-    public function load()
-    {
-        $this->loadFile();
-        $this->validate();
-        $this->parse();
-
-        return $this;
-    }
-
-    public function loadFile()
-    {
-        $this->_dom->load($this->wpkg_path . DIRECTORY_SEPARATOR . $this->_filename);
-        return $this;
-    }
-
-    /**
-     * Execute the validation step
-     * @return $this
-     */
-    public function validate()
-    {
-        // Enable user error handling
-        libxml_use_internal_errors(true);
-
-        // Validate the schema by XSD
-        if (!$this->_dom->schemaValidate($this->_xsd)) {
-            echo "<b>DOMDocument::schemaValidate() Generated Errors!</b>\n";
-            $this->libxml_display_errors();
-            die();
-        }
-        return $this;
-    }
-
-    /**
-     * Parse the single node or
+     * Parse the single node or main
+     *
      * @param   null $node
      * @return  array|Hosts
      */
@@ -74,7 +35,7 @@ class Hosts extends XML_Hosts
                     // If name is not empty
                     if (!empty($name)) {
                         // Single host
-                        $_host = new XML_Host();
+                        $_host = new \WPKG\Classes\Hosts\Host();
                         $_host->wpkg_path = $this->wpkg_path;
                         $_host->name = $name;
 

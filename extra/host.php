@@ -13,7 +13,8 @@ $_host->name = 'host1';
 $_host->profileId = 'profile1';
 
 // Generate the XML from array in memory
-$_host->build();
+$test = $_host->build();
+print_r($test);die();
 
 // Show current variant of generated XML
 echo $_host->show();

@@ -107,21 +107,34 @@ abstract class XML
     /**
      * Save the file on filesystem
      *
-     * @return bool
+     * @param   string|null $file
+     * @return  bool
      */
-    public function save()
+    public function save(string $file = null): bool
     {
+        // Overwrite path of file is defined
+        $file = empty($file)
+            ? $this->wpkg_path . DIRECTORY_SEPARATOR . $this->_filename
+            : $file;
+
         // Return bool answer about file saving operation
-        return $this->prettify()->save($this->wpkg_path . DIRECTORY_SEPARATOR . $this->_filename);
+        return $this->prettify()->save($file);
     }
 
     /**
      * Show existed XML file on filesystem
      *
-     * @return mixed
+     * @param   string|null $file
+     * @return  mixed
      */
-    public function read()
+    public function read(string $file = null)
     {
-        return file_get_contents($this->wpkg_path . DIRECTORY_SEPARATOR . $this->_filename);
+        // Overwrite path of file is defined
+        $file = empty($file)
+            ? $this->wpkg_path . DIRECTORY_SEPARATOR . $this->_filename
+            : $file;
+
+        // Return content of file
+        return file_get_contents($file);
     }
 }
