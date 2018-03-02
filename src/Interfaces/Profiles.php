@@ -5,23 +5,16 @@ interface Profiles
     /**
      * Add new profile into the list
      *
-     * @param Profile $profile
-     * @return object
+     * @param   \WPKG\Interfaces\Profile $profile
+     * @return  \WPKG\Interfaces\Profiles
      */
-    public function set(Profile $profile);
+    public function setProfile(Profile $profile): Profiles;
 
     /**
      * Get array of profiles or single profile
      *
-     * @param string|null $profile
-     * @return array|string
+     * @param   string|null $profile_id - Profile ID
+     * @return  array|\WPKG\Interfaces\Profile - Return array of profiles or single profile
      */
-    public function get(string $profile = null);
-
-    /**
-     * Generate XML by data in memory
-     *
-     * @return string
-     */
-    public function build();
+    public function getProfile(string $profile_id = null);
 }

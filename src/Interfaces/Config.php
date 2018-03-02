@@ -1,19 +1,7 @@
-<?php namespace WPKG\Classes\Config;
+<?php namespace WPKG\Interfaces;
 
-/**
- * Class for work with Config.xml file within the same directory as you place wpkg.js.
- *
- * @link https://wpkg.org/Config.xml
- * @package DrTeam\WPKG
- */
-class Config extends XMLOptions
+interface Config
 {
-    /**
-     * Name of file on filesystem
-     * @var string
-     */
-    protected $_filename = 'config.xml';
-
     /**
      * If you use wpkg_web, you can set wpkg_base to the base URL of your
      * WPKG_Web installation. NO TRAILING SLASH (/). This will allow WPKG to
@@ -42,34 +30,34 @@ class Config extends XMLOptions
      *       [packages|hosts|profiles]_paths is used and wpkg_base defaults to the
      *       location of wpkg.js.
      *
-     * @var string
+     * Default: null
      */
-    public $wpkg_base = '';
+    const WPKG_BASE = 'wpkg_base';
 
     /**
      * True : Do not consider wpkg.xml but check existence of packages.
      * False: Do not force re-detection. Use wpkg.xml to detect current package
      *        status
      *
-     * @var bool
+     * Default: false
      */
-    public $force = false;
+    const FORCE = 'force';
 
     /**
      * True : Force installation over existing packages.
      * False: Skip package installation if package is already installed.
      *
-     * @var bool
+     * Default: false
      */
-    public $forceInstall = false;
+    const FORCE_INSTALL = 'forceInstall';
 
     /**
      * True : Force the script to immediately quit on error.
      * False: Errors are logged but WPKG continues processing.
      *
-     * @var bool
+     * Default: false
      */
-    public $quitonerror = false;
+    const QUIT_ON_ERROR = 'quitonerror';
 
     /**
      * True : Enable debug mode. Prints lots of ugly debug messages to event log.
@@ -79,18 +67,18 @@ class Config extends XMLOptions
      *       enable debug logging to log files without setting this flag to true
      *       which prevents your event log to be flooded.
      *
-     * @var bool
+     * Default: false
      */
-    public $debug = false;
+    const DEBUG = 'debug';
 
     /**
      * True : Enable dryrun mode. Does not apply any changes to the system.
      *        Enables debug output and disables reboot.
      * False: Apply changes to the system.
      *
-     * @var bool
+     * Default: false
      */
-    public $dryrun = false;
+    const DRY_RUN = 'dryrun';
 
     /**
      * Should be set to true in case of unattended run (WPKG service).
@@ -99,18 +87,18 @@ class Config extends XMLOptions
      *        displayed as dialog boxes (wscript).
      * False: Alerts the user about ongoing activity using windows messaging.
      *
-     * @var bool
+     * Default: false
      */
-    public $quiet = false;
+    const QUIET = 'quiet';
 
     /**
      * True : Disable user notification about WPKG actions using windows messaging.
      *        Should be set to true in case of unattended run (WPKG service)
      * False: Alerts the user about ongoing activity using windows messaging.
      *
-     * @var bool
+     * Default: false
      */
-    public $nonotify = false;
+    const NO_NOTIFY = 'nonotify';
 
     /**
      * Defines how long a user notification is displayed to the user. After
@@ -119,9 +107,9 @@ class Config extends XMLOptions
      * Note: This only works on Windows Vista or newer where msg.exe is
      * available.
      *
-     * @var int
+     * Default: 10
      */
-    public $notificationDisplayTime = 10;
+    const NOTIFICATION_DISPLAY_TIME = 'notificationDisplayTime';
 
     /**
      * Default command execution timeout. This is the default timeout used when
@@ -134,26 +122,26 @@ class Config extends XMLOptions
      * a shorter timeframe or of course if commands are known to run longer than
      * the default timeout.
      *
-     * @var int
+     * Default: 3600
      */
-    public $execTimeout = 3600;
+    const EXEC_TIMEOUT = 'execTimeout';
 
     /**
      * True : System does not reboot regardless of need.
      * False: Reboot the system as specified by packages.
      *
-     * @var bool
+     * Default: false
      */
-    public $noreboot = false;
+    const NO_REBOOT = 'noreboot';
 
     /**
      * True : Disable export of running state to Windows registry at
      *        HKCU\Software\WPKG\running
      * False: Export running state to Windows registry at HKCU\Software\WPKG\running
      *
-     * @var bool
+     * Default: false
      */
-    public $noRunningState = false;
+    const NO_RUNNING_STATE = 'noRunningState';
 
     /**
      * True : Matching of package and profile IDs is case sensitive.
@@ -161,9 +149,9 @@ class Config extends XMLOptions
      *        WPKG will consider the package ID "SomePackage" and "SoMePaCkAgE"
      *        the same.
      *
-     * @var bool
+     * Default: true
      */
-    public $caseSensitivity = true;
+    const CASE_SENSITIVITY = 'caseSensitivity';
 
     /**
      * True : Match multiple host entries to a single host.
@@ -171,9 +159,9 @@ class Config extends XMLOptions
      *        entry is found the algorithm stops looking for further matches.
      *        This way only one profile is assigned to a host.
      *
-     * @var bool
+     * Default: false
      */
-    public $applyMultiple = false;
+    const APPLY_MULTIPLE = 'applyMultiple';
 
     /**
      * True : Disable all downloads. In this mode all download instructions
@@ -187,9 +175,9 @@ class Config extends XMLOptions
      * False: Default behavior. All downloads are executed as specified within
      *        the XML files.
      *
-     * @var bool
+     * Default: false
      */
-    public $noDownload = false;
+    const NO_DOWNLOAD = 'noDownload';
 
     /**
      * Use the specified command for rebooting, either with full path or relative
@@ -199,26 +187,26 @@ class Config extends XMLOptions
      * Any other value will make WPKG to try executing the command specified as
      * <command> and then exit with code 3010.
      *
-     * @var string
+     * Default: "standard"
      */
-    public $rebootCmd = 'standard';
+    const REBOOT_CMD = 'rebootCmd';
 
     /**
      * Filename of the local package database (client-side) stored at
      * %SystemRoot%\system32 by default (see settings_file_path)
      *
-     * @var string
+     * Default: "wpkg.xml"
      */
-    public $settings_file_name = 'wpkg.xml';
+    const SETTINGS_FILE_NAME = 'settings_file_name';
 
     /**
      * Path to the local package database (client-side). It is strongly suggested
      * to NOT set this parameter at all if not required.
      * Only change this parameter if you really know what you're doing.
      *
-     * @var string
+     * Default: "%SystemRoot%\\system32"
      */
-    public $settings_file_path = '%SystemRoot%\\system32';
+    const SETTINGS_FILE_PATH = 'settings_file_path';
 
     /**
      * True : Disable forced removal of packages if they are removed from the
@@ -227,9 +215,9 @@ class Config extends XMLOptions
      *        uninstall command fails.
      * False:
      *
-     * @var bool
+     * Default: false
      */
-    public $noForcedRemove = false;
+    const NO_FORCE_REMOVE = 'noForcedRemove';
 
     /**
      * True : Allows to disable removing of packages. If used in conjunction with
@@ -248,9 +236,9 @@ class Config extends XMLOptions
      * False: Remove packages from the system if they are not listed within the
      *        profile any more.
      *
-     * @var bool
+     * Default: false
      */
-    public $noRemove = false;
+    const NO_REMOVE = 'noRemove';
 
     /**
      * Controls weather WPKG prints some information about its progress to
@@ -260,9 +248,9 @@ class Config extends XMLOptions
      * True : Enable status output on STDOUT.
      * False: Disable status output on STDOUT.
      *
-     * @var bool
+     * Default: false
      */
-    public $sendStatus = false;
+    const sendStatus = false;
 
     /**
      * Usually WPKG upgrades a package to the latest available version before it
@@ -277,9 +265,9 @@ class Config extends XMLOptions
      * True : Disables the upgrade-before-remove feature
      * False: Leave the upgrade-before-remove feature enabled
      *
-     * @var bool
+     * Default: false
      */
-    public $noUpgradeBeforeRemove = false;
+    const NO_UPGRADE_BEFORE_REMOVE = 'noUpgradeBeforeRemove';
 
     /**
      * Allows to disable insert of host attributes to local settings DB. This is
@@ -291,9 +279,9 @@ class Config extends XMLOptions
      * True : Includes host information in local wpkg.xml attributes
      * False: Does not include any host information in local wpkg.xml
      *
-     * @var bool
+     * Default: true
      */
-    public $settingsHostInfo = true;
+    const SETTINGS_HOST_INFO = 'settingsHostInfo';
 
     /**
      * Marks volatile releases and "inverts" the algorithm that a longer
@@ -314,9 +302,9 @@ class Config extends XMLOptions
      * The parameter might be defined as many times as you like. Each entry will
      * add another entry to the list of volatile version markers.
      *
-     * @var string
+     * Default: null
      */
-    public $volatileReleaseMarker = '';
+    const VOLATILE_RELEASE_MARKER = 'volatileReleaseMarker';
 
     /**
      * Allows to switch to remote mode where package verification is skipped.
@@ -346,9 +334,9 @@ class Config extends XMLOptions
      * This is required in order to allow evaluation of all conditional
      * attributes in exactly the same way as it will evaluate on the client.
      *
-     * @var string
+     * Default: "local"
      */
-    public $queryMode = 'local';
+    const QUERY_MODE = 'queryMode';
 
     /**
      * Specifies if the log file should be appended or overwritten.
@@ -361,9 +349,9 @@ class Config extends XMLOptions
      *        and it is aimed for the target to keep only the log of the most
      *        recent WPKG run.
      *
-     * @var bool
+     * Default: false
      */
-    public $logAppend = false;
+    const LOG_APPEND = 'logAppend';
 
     /**
      * Log level is defined as a bitmask. Just sum up the values of each log
@@ -381,9 +369,9 @@ class Config extends XMLOptions
      *     13 log errors, information and audit success (1+4+8=13)
      *      3 log errors and warnings only (1+2=3)
      *
-     * @var string
+     * Default: "0xFF"
      */
-    public $logLevel = '0xFF';
+    const LOG_LEVEL = 'logLevel';
 
     /**
      * Path where the logfiles are written to. This might be an UNC path on the
@@ -393,9 +381,9 @@ class Config extends XMLOptions
      *     <param name='log_file_path' value='%TEMP%' />
      *     <param name='log_file_path' value='\\\\server\\share\\dir' />
      *
-     * @var string
+     * Default: "%TEMP%"
      */
-    public $log_file_path = '%TEMP%';
+    const LOG_FILE_PATH = 'log_file_path';
 
     /**
      * Pattern to generate the log file name.
@@ -421,9 +409,9 @@ class Config extends XMLOptions
      *       the log directory. Subsequent executions will overwrite the same log
      *       file.
      *
-     * @var string
+     * Default: "wpkg-[HOSTNAME].log"
      */
-    public $logfilePattern = 'wpkg-[HOSTNAME].log';
+    const LOG_FILE_PATTERN = 'logfilePattern';
 
     /**
      *  Names of the the XML input files.  Not used if base begins with "http".
@@ -437,11 +425,11 @@ class Config extends XMLOptions
      *       files specified in [package|profiles|hosts]_file_name parameters
      *       entirely.
      *
-     * @var string
+     * Default: "packages.xml", "profiles.xml", "hosts.xml"
      */
-    public $packages_file_name = 'packages.xml';
-    public $profiles_file_name = 'profiles.xml';
-    public $hosts_file_name = 'hosts.xml';
+    const PACKAGES_FILE_NAME = 'packages_file_name';
+    const PROFILES_FILE_NAME = 'profiles_file_name';
+    const HOSTS_FILE_NAME = 'hosts_file_name';
 
     /**
      *  Define paths where WPKG looks for XML files. Multiple paths can be
@@ -463,11 +451,11 @@ class Config extends XMLOptions
      *     <param name='packages_path' value='packages|path\\directory' />
      *     <param name='packages_path' value='http://USER:PASS@wpkg.mydomain.com/packages.php' />
      *
-     * @var string
+     * Default: null, null, null
      */
-    public $packages_path = '';
-    public $profiles_path = '';
-    public $hosts_path = '';
+    const PACKAGES_PATH = 'packages_path';
+    const PROFILES_PATH = 'profiles_path';
+    const HOSTS_PATH = 'hosts_path';
 
     /**
      *  Names of the PHP scripts which output the XML files.  Only used if
@@ -481,211 +469,38 @@ class Config extends XMLOptions
      *       specified in web_[packages|profiles|hosts]_file_name. So just insert
      *       complete URLs into [packages|hosts|profiles]_paths.
      *
-     * @var string
+     * Default: "packages_xml_out.php", "profiles_xml_out.php", "hosts_xml_out.php"
      */
-    public $web_packages_file_name = 'packages_xml_out.php';
-    public $web_profiles_file_name = 'profiles_xml_out.php';
-    public $web_hosts_file_name = 'hosts_xml_out.php';
+    const WEB_PACKAGES_FILE_NAME = 'web_packages_file_name';
+    const WEB_PROFILES_FILE_NAME = 'web_profiles_file_name';
+    const WEB_HOSTS_FILE_NAME = 'web_hosts_file_name';
 
     /**
-     * @var string
+     * Default: "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
      */
-    public $sRegPath = 'SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall';
+    const SREG_PATH = 'sRegPath';
 
     /**
-     * @var string
+     * Default: "HKLM\\Software\\WPKG\\running"
      */
-    public $sRegWPKG_Running = 'HKLM\\Software\\WPKG\\running';
+    const SREG_WPKG_RUNNING = 'sRegWPKG_Running';
 
     /**
-     * Variable definitions
+     * Append any parameters into config
      *
-     * Use this section to define global variables which can be used during WPKG
-     * runtime. Variables defined here are defined before WPKG execution starts.
-     * Hots, Porfiles and Packages might overwrite these variables but the
-     * initial value will be set as defined here.
-     *
-     * You can use WPKG conditional logic in order to define specific values for
-     * individual system environemnts like architecture or operating system.
-     *
-     * Some examples are provided below.
-     *
-     * <variables>
-     *     <variable name="PROG_FILES32" value="%PROGRAMFILES%\SomeSoftware" architecture="x86" />
-     *     <variable name="PROG_FILES32" value="%PROGRAMFILES(x86)%\SomeSoftware" architecture="x64" />
-     *     <variable name="DESKTOP" value="%ALLUSERSPROFILE%\Desktop" os="windows xp" />
-     *     <variable name="DESKTOP" value="%PUBLIC%\Desktop" os="windows 7" />
-     * </variables>
-     *
-     * @var array
+     * @param   string $key
+     * @param   mixed $value
+     * @return  \WPKG\Interfaces\Config
      */
-    private $_variables = [];
+    public function with(string $key, $value): Config;
 
     /**
-     * Append variables into array
+     * Append variable into array of config's variables
      *
-     * @param string $name
-     * @param string $value
-     * @param array $options
-     * @return $this
+     * @param   string $name - Name of variable
+     * @param   string $value - Value
+     * @param   array $options - Extra options
+     * @return  \WPKG\Interfaces\Config
      */
-    public function setVariable(string $name, string $value, array $options = [])
-    {
-        // Generate hash os parameters
-        $hash = md5($name . '+' . $value . '+' . implode(',', $options));
-
-        // If variable is not set, then add
-        if (!isset($this->_variables[$hash])) {
-            $this->_variables[$hash]['name'] = $name;
-            $this->_variables[$hash]['value'] = $value;
-            $this->_variables[$hash]['options'] = $options;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Show single variable by name of all variables
-     *
-     * @return array
-     */
-    public function getVariables()
-    {
-        return $this->_variables;
-    }
-
-    /**
-     * Language definitions
-     *
-     * Defines language specific strings. Insert languages as you wish. Multiple
-     * LCID codes might be handled by one language definition. Just separate them
-     * by comma. A full list of LCIDs might be found at:
-     * http://www.microsoft.com/globaldev/reference/lcid-all.mspx
-     *
-     * This is entirely optional. If a message is not defined here the script
-     * will just print a built-in English message.
-     *
-     * Please note that the message has a maximum of 256 characters on Windows
-     * Vista and newer operating systems due to limitation of the messaging
-     * system. Longer messages will result in no message being displayed at all.
-     *
-     * @var array
-     */
-    private $_languages = ['english', 'french', 'german', 'italian', 'russian', 'spanish'];
-
-    /**
-     * Folder where localization files stored
-     * @var string
-     */
-    public $languages_path = __DIR__ . '/../../Languages';
-
-    /**
-     * Append new language
-     *
-     * @param string $name
-     * @return $this
-     */
-    public function setLanguage(string $name)
-    {
-        // Need to find the value into array
-        $key = array_search($name, $this->_languages);
-        // If not found then append
-        if (empty($key)) $this->_languages[] = $name;
-        return $this;
-    }
-
-    /**
-     * Show all available languages
-     *
-     * @return array
-     */
-    public function getLanguages()
-    {
-        return $this->_languages;
-    }
-
-    /**
-     * Generate XML
-     *
-     * @return object
-     */
-    public function build()
-    {
-        // Yep, reflector, because "get_class_vars" show all parameters (from parent also)
-        $_ref = new \ReflectionClass('WPKG\Classes\Config\Config');
-        $_config = new Config();
-        $_props_default = [];
-        // Variables by default
-        foreach ($_ref->getProperties() as $property) {
-            if ($property->class === 'WPKG\Classes\Config\Config') {
-                $property_name = $property->getName();
-                ($property_name[0] != "_") ? $_props_default[$property_name] = $_config->$property_name : null;
-            }
-        }
-
-        // Now we need read current variables
-        $_ref = new \ReflectionClass($this);
-        $_props_current = [];
-        // Current variables
-        foreach ($_ref->getProperties() as $property) {
-            // Check for class
-            if ($property->class === 'WPKG\Classes\Config\Config') {
-                $property_name = $property->getName();
-                // Store into array variables with underline as first symbol
-                ($property_name[0] != "_") ? $_props_current[$property_name] = $this->$property_name : null;
-            }
-        }
-
-        // If some default parameters is overwrite, then add into the
-        foreach ($_props_default as $key => $value) {
-            // If default value was changed
-            if ($_props_current[$key] != $value) {
-                // Append new param element
-                $param = $this->_xml->addChild('param');
-                $param->addAttribute('name', $key);
-
-                // If value is boolean
-                if (is_bool($_props_current[$key])) $_props_current[$key] = $_props_current[$key] ? 'true' : 'false';
-                $param->addAttribute('value', $_props_current[$key]);
-            }
-        }
-
-        //
-        // Variables part
-        //
-        if (!empty($this->_variables)) {
-            $xml_variables = $this->_xml->addChild('variables');
-            foreach ($this->_variables as $variable) {
-                $xml_language = $xml_variables->addChild('variable');
-                $xml_language->addAttribute('name', $variable['name']);
-                $xml_language->addAttribute('value', $variable['value']);
-
-                // Parse another options array if is set
-                foreach ($variable['options'] as $option_key => $option_value) {
-                    $xml_language->addAttribute($option_key, $option_value);
-                }
-            }
-        }
-
-        //
-        // Languages part
-        //
-        $xml_languages = $this->_xml->addChild('languages');
-        $_languages = new Languages($this->languages_path);
-        foreach ($this->_languages as $language) {
-            // For first we need a language element
-            $_language = $_languages->load($language);
-            $xml_language = $xml_languages->addChild('language');
-            $xml_language->addAttribute('lcid', $_language['lcid']);
-
-            // Now need to add the translation strings
-            foreach ($_language['strings'] as $string) {
-                $xml_string = $xml_language->addChild('string', $string['text']);
-                $xml_string->addAttribute('id', $string['id']);
-            }
-        }
-
-        return $this;
-    }
-
+    public function withVariable(string $name, string $value, array $options = []): Config;
 }

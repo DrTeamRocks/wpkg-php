@@ -1,26 +1,24 @@
-<?php namespace WPKG\Classes\Packages;
-
-use WPKG\Classes\XML;
+<?php namespace WPKG\Drivers\XML;
 
 /**
  * Class PackagesXML class with all basic parameters
  *
  * @link https://wpkg.org/Packages.xml
- * @package WPKG\Classes\Packages
+ * @package WPKG\Drivers\XML
  */
-class XMLOptions extends XML
+class Packages
 {
     /**
      * Current namespace
      * @var string
      */
-    protected $_root = 'packages:packages';
+    const ROOT = 'packages:packages';
 
     /**
      * List of attributes
      * @var array
      */
-    protected $_root_attributes = [
+    const ROOT_ATTRIBUTES = [
         'xmlns:packages' => 'http://www.wpkg.org/packages',
         'xmlns:wpkg' => 'http://www.wpkg.org/wpkg',
         'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
@@ -31,5 +29,11 @@ class XMLOptions extends XML
      * XSD schema of XML
      * @var string
      */
-    protected $_xsd = __DIR__ . '/../../../vendor/wpkg/wpkg-js/xsd/packages.xsd';
+    const XSD = __DIR__ . '/../../vendor/wpkg/wpkg-js/xsd/packages.xsd';
+
+    /**
+     * Name of file on filesystem
+     * @var string
+     */
+    const FILENAME = 'packages.xml';
 }

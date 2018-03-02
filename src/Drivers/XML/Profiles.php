@@ -1,26 +1,24 @@
-<?php namespace WPKG\Classes\Profiles;
-
-use WPKG\Classes\XML;
+<?php namespace WPKG\Drivers\XML;
 
 /**
- * Class PackagesXML class with all basic parameters
+ * Class ProfilesXML class with all basic parameters
  *
  * @link https://wpkg.org/Profiles.xml
  * @package WPKG\Classes\Profiles
  */
-class XMLOptions extends XML
+class Profiles
 {
     /**
      * Current namespace
      * @var string
      */
-    protected $_root = 'profiles:profiles';
+    const ROOT = 'profiles:profiles';
 
     /**
      * List of attributes
      * @var array
      */
-    protected $_root_attributes = [
+    const ROOT_ATTRIBUTES = [
         'xmlns:profiles' => 'http://www.wpkg.org/profiles',
         'xmlns:wpkg' => 'http://www.wpkg.org/wpkg',
         'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
@@ -31,5 +29,11 @@ class XMLOptions extends XML
      * XSD schema of XML
      * @var string
      */
-    protected $_xsd = __DIR__ . '/../../../vendor/wpkg/wpkg-js/xsd/profiles.xsd';
+    const XSD = __DIR__ . '/../../vendor/wpkg/wpkg-js/xsd/profiles.xsd';
+
+    /**
+     * Name of file on filesystem
+     * @var string
+     */
+    const FILENAME = 'profiles.xml';
 }

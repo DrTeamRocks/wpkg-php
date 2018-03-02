@@ -3,10 +3,36 @@
 interface Host
 {
     /**
-     * Generate XML tree by data in memory
-     *
-     * @param bool $multi - Multiple files mode
-     * @return mixed
+     * Name of current host
      */
-    public function build(bool $multi = false);
+    const NAME = 'name';
+
+    /**
+     * Store the single profile of host or multiple profiles
+     */
+    const PROFILE_ID = 'profileId';
+
+    /**
+     * Get current host
+     * @return  array
+     */
+    public function getCurrent(): array;
+
+    /**
+     * Get value of some specific key or of all keys from current host
+     *
+     * @param   string|null $key - Key name
+     * @return  mixed
+     */
+    public function getParam(string $key = null);
+
+    /**
+     * Add (replace if exist) some parameter of current host
+     *
+     * @param   string $key - Key name
+     * @param   mixed $value - Any value it can be string, number or array
+     * @return  \WPKG\Interfaces\Host
+     */
+    public function with(string $key, $value): Host;
+
 }

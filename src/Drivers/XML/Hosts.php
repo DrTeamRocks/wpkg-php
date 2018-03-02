@@ -1,26 +1,24 @@
-<?php namespace WPKG\Classes\Hosts;
-
-use WPKG\Classes\XML;
+<?php namespace WPKG\Drivers\XML;
 
 /**
- * Class PackagesXML class with all basic parameters
+ * Class HostsXML class with all basic parameters
  *
- * @link https://wpkg.org/Packages.xml
- * @package WPKG\Classes\Hosts
+ * @link https://wpkg.org/Hosts.xml
+ * @package WPKG\Drivers\XML
  */
-class XMLOptions extends XML
+class Hosts
 {
     /**
      * Current namespace
      * @var string
      */
-    protected $_root = 'hosts:wpkg';
+    const ROOT = 'hosts:wpkg';
 
     /**
      * List of attributes
      * @var array
      */
-    protected $_root_attributes = [
+    const ROOT_ATTRIBUTES = [
         'xmlns:hosts' => 'http://www.wpkg.org/hosts',
         'xmlns:wpkg' => 'http://www.wpkg.org/wpkg',
         'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
@@ -31,5 +29,11 @@ class XMLOptions extends XML
      * XSD schema of XML
      * @var string
      */
-    protected $_xsd = __DIR__ . '/../../../vendor/wpkg/wpkg-js/xsd/hosts.xsd';
+    const XSD = __DIR__ . '/../../vendor/wpkg/wpkg-js/xsd/hosts.xsd';
+
+    /**
+     * Name of file on filesystem
+     * @var string
+     */
+    const FILENAME = 'hosts.xml';
 }

@@ -5,19 +5,9 @@ use WPKG\Host;
 
 // Root container
 $_host = new Host();
-$_host->wpkg_path = __DIR__ . '/tmp';
 
-// Set the hostname
-$_host->name = 'host1';
-// Set single profile or profiles array
-$_host->profileId = 'profile1';
+$_host
+    ->with('name', 'host1')
+    ->with('profileId', 'asd');
 
-// Generate the XML from array in memory
-$test = $_host->build();
-print_r($test);die();
-
-// Show current variant of generated XML
-echo $_host->show();
-
-// Save file on filesystem
-$_host->save();
+echo $_host->show('yaml');

@@ -1,7 +1,5 @@
 <?php namespace WPKG\Interfaces;
 
-use \WPKG\Classes\Hosts\Host;
-
 interface Hosts
 {
     /**
@@ -10,7 +8,7 @@ interface Hosts
      * @param Host $host
      * @return object
      */
-    public function set(Host $host);
+    public function setHost(Host $host);
 
     /**
      * Get array of hosts or single host by name
@@ -18,12 +16,5 @@ interface Hosts
      * @param string|null $name - Hostname
      * @return array|string
      */
-    public function get(string $name = null);
-
-    /**
-     * Generate XML tree by data in memory
-     *
-     * @return string
-     */
-    public function build();
+    public function getHost(string $name = null);
 }

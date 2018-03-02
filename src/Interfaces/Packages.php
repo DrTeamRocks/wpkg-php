@@ -5,23 +5,17 @@ interface Packages
     /**
      * Add package into the array
      *
-     * @param Package $package
-     * @return object
+     * @param   Package $package
+     * @return  Packages
      */
-    public function set(Package $package);
+    public function setPackage(Package $package): Packages;
 
     /**
      * Get package by package-id or all packages
      *
-     * @param string $id
-     * @return array
+     * @param   string $package_id
+     * @return  mixed - Return array of packages or single profile
      */
-    public function get(string $id = null);
+    public function getPackage(string $package_id = null);
 
-    /**
-     * Build the packages.xml
-     *
-     * @return object
-     */
-    public function build();
 }
