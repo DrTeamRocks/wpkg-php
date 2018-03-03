@@ -1,4 +1,4 @@
-<?php namespace WPKG\Importers;
+<?php namespace WPKG\Drivers\XML;
 
 trait Errors
 {
@@ -18,14 +18,15 @@ trait Errors
         }
         $return .= trim($error->message);
         if ($error->file) {
-            $return .=    " in <b>$error->file</b>";
+            $return .= " in <b>$error->file</b>";
         }
         $return .= " on line <b>$error->line</b>\n";
 
         return $return;
     }
 
-    protected function libxml_display_errors() {
+    protected function libxml_display_errors()
+    {
         $errors = libxml_get_errors();
         foreach ($errors as $error) {
             echo $this->libxml_display_error($error);

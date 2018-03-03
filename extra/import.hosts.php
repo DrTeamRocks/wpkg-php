@@ -1,29 +1,14 @@
 <?php
 include __DIR__ . "/../vendor/autoload.php";
 
-use WPKG\Importers\Hosts;
+use WPKG\Drivers\XMLImport;
+use WPKG\Hosts;
 
+$_import = new XMLImport();
 $_hosts = new Hosts();
-$_hosts->wpkg_path = __DIR__ . '/tmp';
 
-// Import the single hosts.xml document
-$_hosts->load();
+// Content of hosts file
+$_hosts_file = file_get_contents(__DIR__. '/tmp/hosts.xml');
 
-// Build the tree by imported file
-$_hosts->build();
-
-echo "\n>>> Original file\n";
-echo $_hosts->read();
-echo "\n";
-
-echo "\n>> Imported file\n";
-echo $_hosts->show();
-echo "\n";
-
-echo "\n>> Read the single host data from main array\n";
-$host = $_hosts->get('host1');
-echo $host->show();
-echo "\n";
-$host = $_hosts->get('host2');
-echo $host->show();
-echo "\n";
+$out = $_import->convert($_hosts_file);
+print_r($out);die();

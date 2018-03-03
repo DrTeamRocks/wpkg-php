@@ -20,7 +20,25 @@ class XML
         $array = $this->serialize($array, $mode);
 
         // Generate XML
-        return ArrayToXml::convert($array, $root, true, 'UTF-8');
+        $xml = ArrayToXml::convert($array, $root, true, 'UTF-8');
+
+        // Make more readable
+        return $this->prettify($xml);
+    }
+
+    /**
+     * Make XML more readable
+     *
+     * @param   string $xml
+     * @return  string
+     */
+    private function prettify(string $xml): string
+    {
+        $dom = new \DOMDocument();
+        $dom->preserveWhiteSpace = false;
+        $dom->formatOutput = true;
+        $dom->loadXML($xml);
+        return $dom->saveXML();
     }
 
     private function serialize(array $array, string $mode)
