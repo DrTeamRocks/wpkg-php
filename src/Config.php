@@ -9,53 +9,6 @@
 class Config extends WPKG implements Interfaces\Config
 {
     /**
-     * List of keys available by default
-     * @var array
-     */
-    private $_keys = [
-        Config::WPKG_BASE,
-        Config::FORCE,
-        Config::FORCE_INSTALL,
-        Config::QUIT_ON_ERROR,
-        Config::DEBUG,
-        Config::DRY_RUN,
-        Config::QUIET,
-        Config::NO_NOTIFY,
-        Config::NOTIFICATION_DISPLAY_TIME,
-        Config::EXEC_TIMEOUT,
-        Config::NO_REBOOT,
-        Config::NO_RUNNING_STATE,
-        Config::CASE_SENSITIVITY,
-        Config::APPLY_MULTIPLE,
-        Config::NO_DOWNLOAD,
-        Config::REBOOT_CMD,
-        Config::SETTINGS_FILE_NAME,
-        Config::SETTINGS_FILE_PATH,
-        Config::NO_FORCE_REMOVE,
-        Config::NO_REMOVE,
-        Config::sendStatus,
-        Config::NO_UPGRADE_BEFORE_REMOVE,
-        Config::SETTINGS_HOST_INFO,
-        Config::VOLATILE_RELEASE_MARKER,
-        Config::QUERY_MODE,
-        Config::LOG_APPEND,
-        Config::LOG_LEVEL,
-        Config::LOG_FILE_PATH,
-        Config::LOG_FILE_PATTERN,
-        Config::PACKAGES_FILE_NAME,
-        Config::PROFILES_FILE_NAME,
-        Config::HOSTS_FILE_NAME,
-        Config::PACKAGES_PATH,
-        Config::PROFILES_PATH,
-        Config::HOSTS_PATH,
-        Config::WEB_PACKAGES_FILE_NAME,
-        Config::WEB_PROFILES_FILE_NAME,
-        Config::WEB_HOSTS_FILE_NAME,
-        Config::SREG_PATH,
-        Config::SREG_WPKG_RUNNING
-    ];
-
-    /**
      * @var array
      */
     private $_config = [];
@@ -75,34 +28,6 @@ class Config extends WPKG implements Interfaces\Config
     }
 
     /**
-     * @param   string|null $key
-     * @return  mixed
-     */
-    public function getParam(string $key = null)
-    {
-        // Default result
-        $result = false;
-
-        try {
-            if (!empty($key)) {
-                // Check parameters
-                Exceptions::arrayKeyAllowed($key, $this->_keys);
-                Exceptions::arrayKeyDefined($key, $this->_config);
-
-                // Return value from array
-                $result = $this->_config[$key];
-            } else {
-                // Return all values from array
-                $result = $this->_config;
-            }
-        } catch (\Exception $e) {
-            echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
-        }
-
-        return $result;
-    }
-
-    /**
      * Append any parameters into config
      *
      * @param   string $key
@@ -114,10 +39,13 @@ class Config extends WPKG implements Interfaces\Config
 
         try {
             // Check parameters
-            Exceptions::arrayKeyAllowed($key, $this->_keys);
+            Exceptions::arrayKeyAllowed($key, Config::KEYS);
 
             // Add value into the array
-            $this->_config[$key] = $value;
+            $this->_config['param'][] = [
+                'name' => $key,
+                'value' => $value
+            ];
 
         } catch (\Exception $e) {
             echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
@@ -131,16 +59,21 @@ class Config extends WPKG implements Interfaces\Config
      *
      * @param   string $name - Name of variable
      * @param   string $value - Value
-     * @param   array $options - Extra options
+     * @param   null|string $os - Operation system name ['Windows xp','Windows 7'...]
+     * @param   null|string $arch - Architecture of processor ['x86', 'x64'...]
      * @return  \WPKG\Interfaces\Config
      */
-    public function withVariable(string $name, string $value, array $options = []): Interfaces\Config
+    public function withVariable(string $name, string $value, string $os = null, string $arch = null): Interfaces\Config
     {
-        $this->_config['variables'][] = [
+        $array = [
             'name' => $name,
-            'value' => $value,
-            'options' => $options
+            'value' => $value
         ];
+
+        if (!empty($os)) $array['os'] = $os;
+        if (!empty($arch)) $array['architecture'] = $arch;
+
+        $this->_config['variables'][] = $array;
 
         return $this;
     }

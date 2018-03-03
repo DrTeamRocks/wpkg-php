@@ -8,12 +8,6 @@
  */
 class Profile extends Profiles implements Interfaces\Profile
 {
-    private $_keys = [
-        Profile::ID,
-        Profile::DEPENDS,
-        Profile::PACKAGES
-    ];
-
     /**
      * Get current profile
      *
@@ -21,7 +15,7 @@ class Profile extends Profiles implements Interfaces\Profile
      */
     public function getCurrent(): array
     {
-        return $this->_profiles[0];
+        return $this->_profiles['profile'][0];
     }
 
     /**
@@ -38,14 +32,14 @@ class Profile extends Profiles implements Interfaces\Profile
         try {
             if (!empty($key)) {
                 // Check parameters
-                Exceptions::arrayKeyAllowed($key, $this->_keys);
-                Exceptions::arrayKeyDefined($key, $this->_profiles[0]);
+                Exceptions::arrayKeyAllowed($key, Profile::KEYS);
+                Exceptions::arrayKeyDefined($key, $this->_profiles['profile'][0]);
 
                 // Return value from array
-                $result = $this->_profiles[0][$key];
+                $result = $this->_profiles['profile'][0][$key];
             } else {
                 // Return all values from array
-                $result = $this->_profiles[0];
+                $result = $this->_profiles['profile'][0];
             }
         } catch (\Exception $e) {
             echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
@@ -65,10 +59,10 @@ class Profile extends Profiles implements Interfaces\Profile
     {
         try {
             // Check parameters
-            Exceptions::arrayKeyAllowed($key, $this->_keys);
+            Exceptions::arrayKeyAllowed($key, Profile::KEYS);
 
             // Add value into the array
-            $this->_profiles[0][$key] = $value;
+            $this->_profiles['profile'][0][$key] = $value;
 
         } catch (\Exception $e) {
             echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";

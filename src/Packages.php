@@ -23,7 +23,7 @@ class Packages extends WPKG implements Interfaces\Packages
     public function setPackage(Interfaces\Package $package): Interfaces\Packages
     {
         // Store package object
-        $this->_packages[] = $package->getCurrent();
+        $this->_packages['package'][] = $package->getCurrent();
         return $this;
     }
 
@@ -36,7 +36,7 @@ class Packages extends WPKG implements Interfaces\Packages
     public function getPackage(string $package_id = null)
     {
         return !empty($package_id)
-            ? array_search(['id' => $package_id], $this->_packages)
+            ? array_search(['id' => $package_id], $this->_packages['package'])
             : $this->_packages;
     }
 

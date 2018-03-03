@@ -23,7 +23,7 @@ class Profiles extends WPKG implements Interfaces\Profiles
     public function setProfile(Interfaces\Profile $profile): Interfaces\Profiles
     {
         // Profile is array of values
-        $this->_profiles[] = $profile->getCurrent();
+        $this->_profiles['profile'][] = $profile->getCurrent();
         return $this;
     }
 
@@ -36,7 +36,7 @@ class Profiles extends WPKG implements Interfaces\Profiles
     public function getProfile(string $profile_id = null)
     {
         return !empty($profile_id)
-            ? array_search(['id' => $profile_id], $this->_profiles)
+            ? array_search(['id' => $profile_id], $this->_profiles['profile'])
             : $this->_profiles;
     }
 

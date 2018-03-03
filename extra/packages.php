@@ -46,4 +46,4 @@ $pk3->with('id', 'time3')
 
 $_packages->setPackage($pk3);
 
-echo $_packages->show('yaml');
+echo $_packages->show();

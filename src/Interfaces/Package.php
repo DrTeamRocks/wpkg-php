@@ -3,6 +3,18 @@
 interface Package
 {
     /**
+     * List of keys available by default
+     */
+    const KEYS = [
+        Package::ID,
+        Package::NAME,
+        Package::REVISION,
+        Package::REBOOT,
+        Package::PRIORITY,
+        Package::EXECUTE
+    ];
+
+    /**
      * Short name of package (used as filename, must be unique)
      */
     const ID = 'id';
@@ -64,7 +76,7 @@ interface Package
      * @param   string $value
      * @return  \WPKG\Interfaces\Package
      */
-    public function setVariable(string $name, string $value): Package;
+    public function withVariable(string $name, string $value): Package;
 
     /**
      * Get some variable or array of variables
@@ -78,12 +90,12 @@ interface Package
      * Set the command of package
      *
      * @param   string $type
-     * @param   string $cmd
-     * @param   string|array|null $include
+     * @param   string|null $cmd
+     * @param   mixed $include
      * @param   array $exit - List of exit codes [0, 3010 => true, 'any', 2]
      * @return  \WPKG\Interfaces\Package
      */
-    public function setCommand(string $type, string $cmd, $include = null, array $exit = []): Package;
+    public function withCommand(string $type, string $cmd = null, $include = null, array $exit = []): Package;
 
     /**
      * Get all commands or single command for current package
@@ -101,7 +113,7 @@ interface Package
      * @param   string $path
      * @return  \WPKG\Interfaces\Package
      */
-    public function setCheck(string $type, string $condition, string $path): Package;
+    public function withCheck(string $type, string $condition, string $path): Package;
 
     /**
      * Get all checks or checks by some specific type

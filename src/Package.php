@@ -9,26 +9,13 @@
 class Package extends Packages implements Interfaces\Package
 {
     /**
-     * List of keys available by default
-     * @var array
-     */
-    private $_keys = [
-        Package::ID,
-        Package::NAME,
-        Package::REVISION,
-        Package::REBOOT,
-        Package::PRIORITY,
-        Package::EXECUTE
-    ];
-
-    /**
      * Get current object
      *
      * @return  array
      */
     public function getCurrent(): array
     {
-        return $this->_packages[0];
+        return $this->_packages['package'][0];
     }
 
     /**
@@ -42,10 +29,10 @@ class Package extends Packages implements Interfaces\Package
     {
         try {
             // Check parameters
-            Exceptions::arrayKeyAllowed($key, $this->_keys);
+            Exceptions::arrayKeyAllowed($key, Package::KEYS);
 
             // Add value into the array
-            $this->_packages[0][$key] = $value;
+            $this->_packages['package'][0][$key] = $value;
 
         } catch (\Exception $e) {
             echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
@@ -68,14 +55,14 @@ class Package extends Packages implements Interfaces\Package
         try {
             if (!empty($key)) {
                 // Check parameters
-                Exceptions::arrayKeyAllowed($key, $this->_keys);
-                Exceptions::arrayKeyDefined($key, $this->_packages[0]);
+                Exceptions::arrayKeyAllowed($key, Package::KEYS);
+                Exceptions::arrayKeyDefined($key, $this->_packages['package'][0]);
 
                 // Return value from array
-                $result = $this->_packages[0][$key];
+                $result = $this->_packages['package'][0][$key];
             } else {
                 // Return all values from array
-                $result = $this->_packages[0];
+                $result = $this->_packages['package'][0];
             }
         } catch (\Exception $e) {
             echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
@@ -91,9 +78,9 @@ class Package extends Packages implements Interfaces\Package
      * @param   string $value
      * @return  \WPKG\Interfaces\Package
      */
-    public function setVariable(string $name, string $value): Interfaces\Package
+    public function withVariable(string $name, string $value): Interfaces\Package
     {
-        $this->_packages[0]['variables'][$name] = $value;
+        $this->_packages['package'][0]['variables'][$name] = $value;
         return $this;
     }
 
@@ -106,26 +93,27 @@ class Package extends Packages implements Interfaces\Package
     public function getVariable(string $name = null)
     {
         return empty($name)
-            ? $this->_packages[0]['variables']
-            : $this->_packages[0]['variables'][$name];
+            ? $this->_packages['package'][0]['variables']
+            : $this->_packages['package'][0]['variables'][$name];
     }
 
     /**
      * Set the command of package
      *
      * @param   string $type
-     * @param   string $cmd
-     * @param   string|array|null $include
-     * @param   array $exit - List of exit codes [0, 3010 => true, 'any', 2]
+     * @param   string|null $cmd
+     * @param   mixed $include
+     * @param   array $exits - List of exit codes, look at \WPKG\PackageCheckExits class for this
      * @return  \WPKG\Interfaces\Package
      */
-    public function setCommand(string $type, string $cmd, $include = null, array $exit = []): Interfaces\Package
+    public function withCommand(string $type, string $cmd = null, $include = null, array $exits = []): Interfaces\Package
     {
-        $this->_packages[0]['commands'][$type][] = [
-            'cmd' => $cmd,
-            'include' => $include,
-            'exit' => $exit
-        ];
+        $array = ['type' => $type];
+        if (!empty($cmd)) $array['cmd'] = $cmd;
+        if (!empty($include)) $array['include'] = $include;
+        if (!empty($exits)) $array['exits'] = $exits;
+
+        $this->_packages['package'][0]['commands'][$type][] = $array;
 
         return $this;
     }
@@ -139,8 +127,8 @@ class Package extends Packages implements Interfaces\Package
     public function getCommand(string $type = null): array
     {
         return empty($type)
-            ? $this->_packages[0]['commands']
-            : $this->_packages[0]['commands'][$type];
+            ? $this->_packages['package'][0]['commands']
+            : $this->_packages['package'][0]['commands'][$type];
     }
 
     /**
@@ -151,9 +139,9 @@ class Package extends Packages implements Interfaces\Package
      * @param   string $path
      * @return  \WPKG\Interfaces\Package
      */
-    public function setCheck(string $type, string $condition, string $path): Interfaces\Package
+    public function withCheck(string $type, string $condition, string $path): Interfaces\Package
     {
-        $this->_packages[0]['checks'][$type][] = [
+        $this->_packages['package'][0]['checks'][$type][] = [
             'condition' => $condition,
             'path' => $path
         ];
@@ -170,8 +158,8 @@ class Package extends Packages implements Interfaces\Package
     public function getCheck(string $type = null): array
     {
         return empty($type)
-            ? $this->_packages[0]['checks']
-            : $this->_packages[0]['checks'][$type];
+            ? $this->_packages['package'][0]['checks']
+            : $this->_packages['package'][0]['checks'][$type];
     }
 
 }

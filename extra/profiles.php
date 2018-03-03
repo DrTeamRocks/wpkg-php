@@ -53,4 +53,4 @@ $pr5->with('id', 'profile5')
 $_profiles->setProfile($pr5);
 
 // Show current variant of generated config
-echo $_profiles->show('yaml');
+echo $_profiles->show();

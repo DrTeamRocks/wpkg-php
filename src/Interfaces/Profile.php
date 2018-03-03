@@ -3,6 +3,15 @@
 interface Profile
 {
     /**
+     * List of keys available by default
+     */
+    const KEYS = [
+        Profile::ID,
+        Profile::DEPENDS,
+        Profile::PACKAGES
+    ];
+
+    /**
      * Name of profile
      */
     const ID = 'id';

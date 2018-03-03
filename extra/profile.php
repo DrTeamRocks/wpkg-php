@@ -11,4 +11,4 @@ $_profile
     ->with('depends', 'profile2');
 
 // Show current variant of generated config
-echo $_profile->show('yaml');
+echo $_profile->show();

@@ -13,11 +13,12 @@ $_config
 
 // Now we can set the variables
 $_config
-    ->withVariable('PROG_FILES32', "%ProgramFiles%", ['architecture' => "x86"])
-    ->withVariable('PROG_FILES32', "%ProgramFiles(x86)%", ['architecture' => "x64"])
-    ->withVariable('DESKTOP', "%ALLUSERSPROFILE%\Desktop", ['os' => "windows xp"])
-    ->withVariable('DESKTOP', "%PUBLIC%\Desktop", ['os' => "Windows 7"]);
+    ->withVariable('PROG_FILES32', "%ProgramFiles%", null, "x86")
+    ->withVariable('PROG_FILES32', "%ProgramFiles(x86)%",null, "x64")
+    ->withVariable('DESKTOP', "%ALLUSERSPROFILE%\Desktop", "Windows xp")
+    ->withVariable('DESKTOP', "%PUBLIC%\Desktop", "Windows 7");
 
 
 // Show current variant of generated XML
-echo $_config->show('yaml');
+//echo $_config->show('yaml');
+echo $_config->show('xml');

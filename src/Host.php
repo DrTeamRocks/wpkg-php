@@ -9,22 +9,13 @@
 class Host extends Hosts implements Interfaces\Host
 {
     /**
-     * List of keys available by default
-     * @var array
-     */
-    private $_keys = [
-        Host::NAME,
-        Host::PROFILE_ID
-    ];
-
-    /**
      * Get current object
      *
      * @return  array
      */
     public function getCurrent(): array
     {
-        return $this->_hosts[0];
+        return $this->_hosts['host'][0];
     }
 
     /**
@@ -41,14 +32,14 @@ class Host extends Hosts implements Interfaces\Host
         try {
             if (!empty($key)) {
                 // Check parameters
-                Exceptions::arrayKeyAllowed($key, $this->_keys);
-                Exceptions::arrayKeyDefined($key, $this->_hosts[0]);
+                Exceptions::arrayKeyAllowed($key, Host::KEYS);
+                Exceptions::arrayKeyDefined($key, $this->_hosts['host'][0]);
 
                 // Return value from array
-                $result = $this->_hosts[0][$key];
+                $result = $this->_hosts['host'][0][$key];
             } else {
                 // Return all values from array
-                $result = $this->_hosts[0];
+                $result = $this->_hosts['host'][0];
             }
         } catch (\Exception $e) {
             echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
@@ -68,10 +59,10 @@ class Host extends Hosts implements Interfaces\Host
     {
         try {
             // Check parameters
-            Exceptions::arrayKeyAllowed($key, $this->_keys);
+            Exceptions::arrayKeyAllowed($key, Host::KEYS);
 
             // Add value into the array
-            $this->_hosts[0][$key] = $value;
+            $this->_hosts['host'][0][$key] = $value;
 
         } catch (\Exception $e) {
             echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";

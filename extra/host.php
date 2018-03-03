@@ -8,6 +8,6 @@ $_host = new Host();
 
 $_host
     ->with('name', 'host1')
-    ->with('profileId', 'asd');
+    ->with('profile-id', 'asd');
 
-echo $_host->show('yaml');
+echo $_host->show();

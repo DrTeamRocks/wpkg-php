@@ -3,6 +3,14 @@
 interface Host
 {
     /**
+     * List of keys available by default
+     */
+    const KEYS = [
+        Host::NAME,
+        Host::PROFILE_ID
+    ];
+
+    /**
      * Name of current host
      */
     const NAME = 'name';
@@ -10,7 +18,7 @@ interface Host
     /**
      * Store the single profile of host or multiple profiles
      */
-    const PROFILE_ID = 'profileId';
+    const PROFILE_ID = 'profile-id';
 
     /**
      * Get current host

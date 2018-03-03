@@ -23,7 +23,7 @@ class Hosts extends WPKG implements Interfaces\Hosts
     public function setHost(Interfaces\Host $host)
     {
         // Store host object to array
-        $this->_hosts[] = $host->getCurrent();
+        $this->_hosts['host'][] = $host->getCurrent();
         return $this;
     }
 
@@ -36,7 +36,7 @@ class Hosts extends WPKG implements Interfaces\Hosts
     public function getHost(string $hostname = null)
     {
         return !empty($hostname)
-            ? array_search(['name' => $hostname], $this->_hosts)
+            ? array_search(['name' => $hostname], $this->_hosts['host'])
             : $this->_hosts;
     }
 

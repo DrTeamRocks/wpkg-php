@@ -3,6 +3,52 @@
 interface Config
 {
     /**
+     * List of keys available by default
+     */
+    const KEYS = [
+        Config::WPKG_BASE,
+        Config::FORCE,
+        Config::FORCE_INSTALL,
+        Config::QUIT_ON_ERROR,
+        Config::DEBUG,
+        Config::DRY_RUN,
+        Config::QUIET,
+        Config::NO_NOTIFY,
+        Config::NOTIFICATION_DISPLAY_TIME,
+        Config::EXEC_TIMEOUT,
+        Config::NO_REBOOT,
+        Config::NO_RUNNING_STATE,
+        Config::CASE_SENSITIVITY,
+        Config::APPLY_MULTIPLE,
+        Config::NO_DOWNLOAD,
+        Config::REBOOT_CMD,
+        Config::SETTINGS_FILE_NAME,
+        Config::SETTINGS_FILE_PATH,
+        Config::NO_FORCE_REMOVE,
+        Config::NO_REMOVE,
+        Config::sendStatus,
+        Config::NO_UPGRADE_BEFORE_REMOVE,
+        Config::SETTINGS_HOST_INFO,
+        Config::VOLATILE_RELEASE_MARKER,
+        Config::QUERY_MODE,
+        Config::LOG_APPEND,
+        Config::LOG_LEVEL,
+        Config::LOG_FILE_PATH,
+        Config::LOG_FILE_PATTERN,
+        Config::PACKAGES_FILE_NAME,
+        Config::PROFILES_FILE_NAME,
+        Config::HOSTS_FILE_NAME,
+        Config::PACKAGES_PATH,
+        Config::PROFILES_PATH,
+        Config::HOSTS_PATH,
+        Config::WEB_PACKAGES_FILE_NAME,
+        Config::WEB_PROFILES_FILE_NAME,
+        Config::WEB_HOSTS_FILE_NAME,
+        Config::SREG_PATH,
+        Config::SREG_WPKG_RUNNING
+    ];
+
+    /**
      * If you use wpkg_web, you can set wpkg_base to the base URL of your
      * WPKG_Web installation. NO TRAILING SLASH (/). This will allow WPKG to
      * use the web generated XML file and not require further XML Exports to the
@@ -499,8 +545,9 @@ interface Config
      *
      * @param   string $name - Name of variable
      * @param   string $value - Value
-     * @param   array $options - Extra options
+     * @param   null|string $os - Operation system name ['Windows xp','Windows 7'...]
+     * @param   null|string $arch - Architecture of processor ['x86', 'x64'...]
      * @return  \WPKG\Interfaces\Config
      */
-    public function withVariable(string $name, string $value, array $options = []): Config;
+    public function withVariable(string $name, string $value, string $os = null, string $arch = null): Config;
 }
