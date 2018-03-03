@@ -1,4 +1,4 @@
-<?php namespace WPKG\Classes\Packages;
+<?php namespace WPKG;
 
 use PHPUnit\Framework\TestCase;
 

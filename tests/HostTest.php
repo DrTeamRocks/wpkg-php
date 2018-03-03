@@ -1,4 +1,4 @@
-<?php namespace WPKG\Classes\Hosts;
+<?php namespace WPKG;
 
 use PHPUnit\Framework\TestCase;
 
