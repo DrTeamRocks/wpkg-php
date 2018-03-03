@@ -92,10 +92,10 @@ interface Package
      * @param   string $type
      * @param   string|null $cmd
      * @param   mixed $include
-     * @param   array $exit - List of exit codes [0, 3010 => true, 'any', 2]
+     * @param   null|PackageCheckExits $exits - List of exit codes [0, 3010 => true, 'any', 2]
      * @return  \WPKG\Interfaces\Package
      */
-    public function withCommand(string $type, string $cmd = null, $include = null, array $exit = []): Package;
+    public function withCommand(string $type, string $cmd = null, $include = null, PackageCheckExits $exits = null): Package;
 
     /**
      * Get all commands or single command for current package

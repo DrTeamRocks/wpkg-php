@@ -40,24 +40,25 @@ class XML
                             unset($v_value['checks']);
                         }
 
+                        // Parse commands array
                         if (isset($v_value['commands'])) {
+                            // Every command must be a single element
                             foreach ($v_value['commands'] as $c_key => $c_value) {
                                 foreach ($c_value as $c_item) {
-
+                                    $array = [];
                                     // Parse exit codes
                                     if (isset($c_item['exits'])) {
-                                        foreach ($c_item['exits'] as $e_key => $e_value) {
-                                            $array['exit'][]['_attributes'] = $e_value;
+                                        foreach ($c_item['exits'] as $exit) {
+                                            $array['exit'][]['_attributes'] = $exit;
                                         }
+                                        // We need unset original array with exits from source array
+                                        unset($c_item['exits']);
                                     }
-                                    unset($c_item['exits']);
-
-                                    $array = [
-                                        '_attributes' => array_merge(['type' => $c_key], $c_item)
-                                    ];
+                                    $array['_attributes'] = array_merge(['type' => $c_key], $c_item);
                                     $out[$a_key][$v_key]['commands']['command'][] = $array;
                                 }
                             }
+                            // Unset original commands from source array
                             unset($v_value['commands']);
                         }
 

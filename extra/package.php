@@ -30,7 +30,7 @@ $_exits
 
 // Run command
 $_package
-    ->withCommand('install', 'msiexec /i /qn "%SOFTWARE%\path\to\msi"', 'test', $_exits->get())
+    ->withCommand('install', 'msiexec /i /qn "%SOFTWARE%\path\to\msi"', 'test', $_exits)
     ->withCommand('remove', 'msiexec /x /qn "%SOFTWARE%\path\to\msi"')
     ->withCommand('upgrade', 'msiexec /i /qn "%SOFTWARE%\path\to\msi"')
     ->withCommand('downgrade', null, 'remove')

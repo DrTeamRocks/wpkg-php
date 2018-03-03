@@ -103,15 +103,15 @@ class Package extends Packages implements Interfaces\Package
      * @param   string $type
      * @param   string|null $cmd
      * @param   mixed $include
-     * @param   array $exits - List of exit codes, look at \WPKG\PackageCheckExits class for this
+     * @param   null|\WPKG\Interfaces\PackageCheckExits $exits - List of exit codes, look at \WPKG\PackageCheckExits class for this
      * @return  \WPKG\Interfaces\Package
      */
-    public function withCommand(string $type, string $cmd = null, $include = null, array $exits = []): Interfaces\Package
+    public function withCommand(string $type, string $cmd = null, $include = null, Interfaces\PackageCheckExits $exits = null): Interfaces\Package
     {
         $array = ['type' => $type];
         if (!empty($cmd)) $array['cmd'] = $cmd;
         if (!empty($include)) $array['include'] = $include;
-        if (!empty($exits)) $array['exits'] = $exits;
+        if (!empty($exits)) $array['exits'] = $exits->get();
 
         $this->_packages['package'][0]['commands'][$type][] = $array;
 
