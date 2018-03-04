@@ -1,8 +1,9 @@
 <?php namespace WPKG\Drivers;
 
-use Spatie\ArrayToXml\ArrayToXml;
+use \Spatie\ArrayToXml\ArrayToXml;
+use \WPKG\Interfaces\Export;
 
-class XML
+class XML implements Export
 {
     public function build(array $array, string $mode): string
     {
@@ -17,7 +18,7 @@ class XML
         ];
 
         // Serialization
-        $array = $this->serialize($array, $mode);
+        $array = $this->serialize($array);
 
         // Generate XML
         $xml = ArrayToXml::convert($array, $root, true, 'UTF-8');
@@ -41,7 +42,7 @@ class XML
         return $dom->saveXML();
     }
 
-    private function serialize(array $array, string $mode)
+    private function serialize(array $array)
     {
         $out = [];
         foreach ($array as $a_key => $a_value) {

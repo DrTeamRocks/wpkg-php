@@ -1,14 +1,16 @@
 <?php
 include __DIR__ . "/../vendor/autoload.php";
 
-use WPKG\Drivers\XMLImport;
-use WPKG\Hosts;
+use \WPKG\Drivers\XMLImport;
 
+// Create new object
 $_import = new XMLImport();
-$_hosts = new Hosts();
 
 // Content of hosts file
-$_hosts_file = file_get_contents(__DIR__. '/tmp/hosts.xml');
+$_hosts_file = file_get_contents(__DIR__. '/../vendor/wpkg/wpkg-js/hosts.xml');
 
-$out = $_import->convert($_hosts_file);
-print_r($out);die();
+// Read and parse file to normal format
+$out = $_import->import($_hosts_file);
+
+// Print array to stdOut
+print_r($out);
