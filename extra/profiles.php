@@ -18,7 +18,7 @@ $_profiles->setProfile($pr1);
  * Test profile #2
  */
 $pr2 = new Profile();
-$pr2->with('id', 'profile1')
+$pr2->with('id', 'profile2')
     ->with('packages', 'DotNet');
 
 $_profiles->setProfile($pr2);

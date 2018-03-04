@@ -10,7 +10,7 @@ $_import = new XMLImport();
 $_hosts_file = file_get_contents(__DIR__. '/../vendor/wpkg/wpkg-js/hosts.xml');
 
 // Read and parse file to normal format
-$out = $_import->import($_hosts_file);
+$_hosts = $_import->import($_hosts_file);
 
 // Print array to stdOut
-print_r($out);
+print_r($_hosts);

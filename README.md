@@ -35,15 +35,7 @@ look at [WPKG-AD project](https://github.com/wpkg/wpkg-php-ad), which based on t
 
 # How to create XML
 
-Almost all classes have several identical methods:
-
-    build() - Execute the XML tree generation
-    show() - Return ready for STDOUT generated XML
-    save() - Create (replace if exist) new file on filesystem
-
-    Note: Don't forget execute "build()" method before you run "show()" or "save()".
-
-Any other examples with descriptions you can find [here](extra).
+Some examples with descriptions you can find [here](extra).
 
 ## Config
 
@@ -59,22 +51,24 @@ If you do not specify anything, a configuration with default parameters
 will be generated.
 
 ```php
-$config = new \WPKG\Config();
-$config->wpkg_path = '/path/to/wpkg';
+$_config = new \WPKG\Config();
 
-$config->wpkg_base = 'http://example.com';
-$config->quitonerror = true;
-$config->debug = true;
+// Overwrite some attributes
+$_config
+    ->with('wpkg_base', 'http://example.com')
+    ->with('quitonerror', true)
+    ->with('debug', true);
 
-$config
-    ->setVariable('PROG_FILES32', "%ProgramFiles%", ['architecture' => "x86"])
-    ->setVariable('PROG_FILES32', "%ProgramFiles(x86)%", ['architecture' => "x64"])
-    ->setVariable('DESKTOP', "%ALLUSERSPROFILE%\Desktop", ['os' => "windows xp"])
-    ->setVariable('DESKTOP', "%PUBLIC%\Desktop", ['os' => "Windows 7"]);
+// Now we can set the variables
+$_config
+    ->withVariable('PROG_FILES32', "%ProgramFiles%", null, "x86")
+    ->withVariable('PROG_FILES32', "%ProgramFiles(x86)%",null, "x64")
+    ->withVariable('DESKTOP', "%ALLUSERSPROFILE%\Desktop", "Windows xp")
+    ->withVariable('DESKTOP', "%PUBLIC%\Desktop", "Windows 7");
 
-$config
-    ->build()
-    ->save();
+
+// Show current variant of generated XML
+echo $_config->show();
 ```
 
 Result of execution:
@@ -82,18 +76,18 @@ Result of execution:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <config xmlns:profiles="http://www.wpkg.org/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wpkg.org/config xsd/config.xsd">
+  <languages>
+    ... a lot of lines with translations ...
+  </languages>
   <param name="wpkg_base" value="http://example.com"/>
   <param name="quitonerror" value="true"/>
   <param name="debug" value="true"/>
   <variables>
     <variable name="PROG_FILES32" value="%ProgramFiles%" architecture="x86"/>
     <variable name="PROG_FILES32" value="%ProgramFiles(x86)%" architecture="x64"/>
-    <variable name="DESKTOP" value="%ALLUSERSPROFILE%\Desktop" os="windows xp"/>
+    <variable name="DESKTOP" value="%ALLUSERSPROFILE%\Desktop" os="Windows xp"/>
     <variable name="DESKTOP" value="%PUBLIC%\Desktop" os="Windows 7"/>
   </variables>
-  <languages>
-    ... a lot of lines with translations ...
-  </languages>
 </config>
 ```
 
@@ -108,7 +102,7 @@ At the moment, translations (creators of the WPKG project call them languages) a
 * Russian (added by me)
 * Spanish
 
-Translations tooked from the *config.xml* file that was in the [wpkg-1.3.1-bin.zip](http://wpkg.org/files/stable/1.3.x/wpkg-1.3.1-bin.zip)
+Translations was taken from the *config.xml* file that was in the [wpkg-1.3.1-bin.zip](http://wpkg.org/files/stable/1.3.x/wpkg-1.3.1-bin.zip)
 archive from the official website of the [WPKG project](https://wpkg.org/Download).
 
 All available translations of *wpkg-php* you can find [here](src/Languages).
@@ -127,20 +121,18 @@ Mappings between machine names and profile names.
 If you want generate few hosts in separated files:
 
 ```php
+// Root container
 $_host = new \WPKG\Host();
-$_host->wpkg_path = __DIR__ . '/tmp';
 
-$_host->name = 'host1';
-$_host->profileId = 'profile1';
-// Or you can specify few profiles via array
-$_host->profileId = ['profile1', 'profile2', 'profile3']
-
+// Need to add some parameters
 $_host
-    ->build()
-    ->save();
+    ->with('name', 'host1')
+    ->with('profile-id', 'profile1');
+
+echo $_host->show();
 ```
 
-Result file (with name like <name>.xml, eg host1.xml like in current example) you can find into the **wpkg_path**/hosts/ subfolder:
+Result is:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -149,14 +141,27 @@ Result file (with name like <name>.xml, eg host1.xml like in current example) yo
 </hosts:wpkg>
 ```
 
-Or like above, if few profiles:
+You also can set array of profiles:
+
+```php
+// Root container
+$_host = new \WPKG\Host();
+
+// Need to add some parameters
+$_host
+    ->with('name', 'host1')
+    ->with('profile-id', ['profile1', 'profile2', 'profile3']);
+
+echo $_host->show();
+```
+
+And in result must be:
 
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>
 <hosts:wpkg xmlns:hosts="http://www.wpkg.org/hosts" xmlns:wpkg="http://www.wpkg.org/wpkg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wpkg.org/hosts xsd/hosts.xsd">
   <host name="host1" profile-id="profile1">
-    <profile id="profile2"/>
-    <profile id="profile3"/>
+    <profile profile-id="profile2"/>
+    <profile profile-id="profile3"/>
   </host>
 </hosts:wpkg>
 ```
@@ -166,24 +171,40 @@ Or like above, if few profiles:
 If you need one large file with all your hosts:
 
 ```php
-$_hosts = new \WPKG\Hosts();
-$_hosts->wpkg_path = __DIR__ . '/tmp';
+// Root container
+$_hosts = new Hosts();
 
+/**
+ * Test host #1
+ */
 $host1 = new Host();
-$host1->name = 'host1';
-$host1->profileId = 'profile1';
+$host1
+    ->with('name', 'host1')
+    ->with('profile-id', 'profile1');
 
-$_hosts->set($host1);
+$_hosts->setHost($host1);
 
+/**
+ * Test host #2
+ */
 $host2 = new Host();
-$host2->name = 'host2';
-$host2->profileId = ['profile1', 'profile2', 'profile3'];
+$host2
+    ->with('name', 'host2')
+    ->with('profile-id', ['profile1', 'profile2', 'profile3']);
 
-$_hosts->set($host2);
+$_hosts->setHost($host2);
 
-$_hosts
-    ->build()
-    ->save();
+/**
+ * Test host #3
+ */
+$host3 = new Host();
+$host3
+    ->with('name', 'host3')
+    ->with('profile-id', 'profile3');
+
+$_hosts->setHost($host3);
+
+echo $_hosts->show();
 ```
 
 Result file *hosts.xml* into the **wpkg_path** folder
@@ -193,9 +214,10 @@ Result file *hosts.xml* into the **wpkg_path** folder
 <hosts:wpkg xmlns:hosts="http://www.wpkg.org/hosts" xmlns:wpkg="http://www.wpkg.org/wpkg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wpkg.org/hosts xsd/hosts.xsd">
   <host name="host1" profile-id="profile1"/>
   <host name="host2" profile-id="profile1">
-    <profile id="profile2"/>
-    <profile id="profile3"/>
+    <profile profile-id="profile2"/>
+    <profile profile-id="profile3"/>
   </host>
+  <host name="host3" profile-id="profile3"/>
 </hosts:wpkg>
 ```
 
@@ -207,17 +229,22 @@ so you can use any configuration parameters from this library.
 Basic usage:
 
 ```php
-use \WPKG\AD\Hosts;
+use \WPKG\Drivers\ADImport;
 
-$_hosts = new Hosts();
-$_hosts->config_adldap = '/path/to/your/adldap.php';
-$_hosts->wpkg_path = '/path/to/wpkg';
+// Read AD configuration
+$_config = include __DIR__ . '/adldap.php';
 
-// Generate the XML tree object by data from AD
-$_hosts->build();
+// Set Import object for work and put configuration inside
+$_import = new ADImport($_config);
 
-// Output the XML
-echo $_hosts->show();
+// You also can set config via specific method
+//$_import->setConfig($_config);
+
+// Choose work mode (only hosts available) and output the XML
+$_hosts = $_import->import('hosts');
+$out = $_hosts->show();
+
+print_r($out);
 ```
 
 You should saw something like this:
@@ -225,31 +252,10 @@ You should saw something like this:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <hosts:wpkg xmlns:hosts="http://www.wpkg.org/hosts" xmlns:wpkg="http://www.wpkg.org/wpkg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wpkg.org/hosts xsd/hosts.xsd">
-  <host name="test1" profile-id="managers">
-    <profile id="dotNet"/>
-  </host>
-  <host name="test2" profile-id="managers"/>
+  <host name="user1.example.com" profile-id="default"/>
+  <host name="user2.example.com" profile-id="default"/>
+  <host name="user3.example.com" profile-id="default"/>
 </hosts:wpkg>
-```
-
-If you want save your `hosts.xml` file you need add `save()` command
-to your code.
-
-```php
-// Save hosts.xml file into the /path/to/wpkg (replace if exist)
-$_hosts->save();
-```
-
-By default `\WPKG\AD\Hosts` class used configuration from [config](config)
-folder of this project, but you can specify path by `config_adldap` class
-parameter or set your parameters via `setConfig()` method:
-
-```php
-use \WPKG\AD\Hosts;
-
-$_hosts = new Hosts();
-$_hosts->setConfig('adldap', ['array' => 'of', 'ldap' => 'parameters']);
-$_hosts->wpkg_path = '/path/to/wpkg';
 ```
 
 ## Profiles
@@ -261,16 +267,17 @@ Specifies which packages will be installed/executed for each WPKG profile.
 If you want generate few profiles in separated files:
 
 ```php
-$_profile = new \WPKG\Profile();
-$_profile->wpkg_path = __DIR__ . '/tmp';
+use WPKG\Profile;
 
-$_profile->id = 'profile1';
-$_profile->packages = 'DotNet';
-$_profile->depends = 'profile2';
+$_profile = new \WPKG\Profile();
 
 $_profile
-    ->build()
-    ->save();
+    ->with('id', 'profile1')
+    ->with('packages', 'DotNet')
+    ->with('depends', 'profile2');
+
+// Show current variant of generated config
+echo $_profile->show();
 ```
 
 Result file (with name like <id>.xml, eg profile1.xml like in current example) you can find into the **wpkg_path**/profiles/ subfolder:
@@ -280,10 +287,12 @@ Result file (with name like <id>.xml, eg profile1.xml like in current example) y
 <profiles:profiles xmlns:profiles="http://www.wpkg.org/profiles" xmlns:wpkg="http://www.wpkg.org/wpkg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wpkg.org/profiles xsd/profiles.xsd">
   <profile id="profile1">
     <depends profile-id="profile2"/>
-    <packages package-id="DotNet"/>
+    <package package-id="DotNet"/>
   </profile>
 </profiles:profiles>
 ```
+
+You as in hosts also can set array of `packages` or `depends`.
 
 ### Profiles.xml file
 
@@ -291,55 +300,80 @@ If you need one large file with all your profiles:
 
 ```php
 $_profiles = new \WPKG\Profiles();
-$_profiles->wpkg_path = __DIR__ . '/tmp';
 
-// First profile
+/**
+ * Test profile #1
+ */
 $pr1 = new Profile();
-$pr1->id = 'profile1';
-$pr2->packages = 'DotNet'];
+$pr1->with('id', 'profile1');
 
-$_profiles->set($pr1);
+$_profiles->setProfile($pr1);
 
-// Second profile
+/**
+ * Test profile #2
+ */
 $pr2 = new Profile();
-$pr2->id = 'profile3';
-$pr2->packages = ['Firefox', 'Chromium', 'Opera'];
-$pr2->depends = 'profile1';
+$pr2->with('id', 'profile2')
+    ->with('packages', 'DotNet');
 
-$_profiles->set($pr3);
+$_profiles->setProfile($pr2);
 
-// Third profile
+/**
+ * Test profile #3
+ */
 $pr3 = new Profile();
-$pr3->id = 'profile3';
-$pr3->packages = ['SuperBank', 'OpenOffice'];
-$pr3->depends = ['profile1', 'profile2'];
+$pr3->with('id', 'profile3')
+    ->with('packages', ['Firefox', 'Chromium', 'Opera'])
+    ->with('depends', 'profile1');
 
-$_profiles->set($pr2);
+$_profiles->setProfile($pr3);
 
-$_profiles
-    ->build()
-    ->save();
+/**
+ * Test profile #4
+ */
+$pr4 = new Profile();
+$pr4->with('id', 'profile4')
+    ->with('packages', ['SuperBank', 'AnotherBank'])
+    ->with('depends', ['profile1', 'profile2']);
+
+$_profiles->setProfile($pr4);
+
+/**
+ * Test profile #5
+ */
+$pr5 = new Profile();
+$pr5->with('id', 'profile5')
+    ->with('depends', 'profile3');
+
+$_profiles->setProfile($pr5);
+
+// Show current variant of generated config
+echo $_profiles->show();
 ```
 
-Result file *profiles.xml* into the **wpkg_path** folder
+Result:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <profiles:profiles xmlns:profiles="http://www.wpkg.org/profiles" xmlns:wpkg="http://www.wpkg.org/wpkg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wpkg.org/profiles xsd/profiles.xsd">
-  <profile id="profile1">
-    <packages package-id="DotNet"/>
-  </profile>
+  <profile id="profile1"/>
   <profile id="profile2">
-    <depends profile-id="profile1"/>
-    <packages package-id="Firefox"/>
-    <packages package-id="Chromium"/>
-    <packages package-id="Opera"/>
+    <package package-id="DotNet"/>
   </profile>
   <profile id="profile3">
     <depends profile-id="profile1"/>
+    <package package-id="Firefox"/>
+    <package package-id="Chromium"/>
+    <package package-id="Opera"/>
+  </profile>
+  <profile id="profile4">
+    <depends profile-id="profile1"/>
     <depends profile-id="profile2"/>
-    <packages package-id="SuperBank"/>
-    <packages package-id="OpenOffice"/>
+    <package package-id="SuperBank"/>
+    <package package-id="AnotherBank"/>
+  </profile>
+  <profile id="profile5">
+    <depends profile-id="profile3"/>
   </profile>
 </profiles:profiles>
 ```
@@ -353,32 +387,64 @@ Defines software packages (commands for WPKG to install/uninstall programs, etc.
 If you want generate few packages in separated files:
 
 ```php
-$_packages = new Package();
-$_packages->wpkg_path = __DIR__ . '/tmp';
+use \WPKG\Package;
+use \WPKG\PackageCheckExits;
 
-$_packages->id = 'time';
-$_packages->name = 'Time Synchronization';
-$_packages->priority = 100;
-$_packages->execute = 'always';
+$_package = new Package();
+$_exits = new PackageCheckExits();
 
-$_packages
-    ->setCheck('host', 'os', 'windows 7')
-    ->setCommand('install', 'net time \\timeserver /set /yes');
+// Overwrite the attributes of tha class
+$_package
+    ->with('id', 'wpkg1')
+    ->with('name', 'Windows Packager sample 1')
+    ->with('revision', 1)
+    ->with('priority', 0)
+    ->with('reboot', 'false');
 
-$_packages
-    ->build()
-    ->save();
+// Small check for Windows 7
+$_package
+    ->withCheck('registry', 'exists', 'HKLM\Software\wpkg\full\key\not\part\of\it')
+    ->withCheck('file', 'exists', 'C:\wpkg\wpkg.bat')
+    ->withCheck('uninstall', 'exists', 'WPKG 0.6-test1');
+
+// We need set exit codes for some installation stages
+$_exits
+    ->add(0)
+    ->add(3010, true)
+    ->add('any')
+    ->add(2);
+
+// Run command
+$_package
+    ->withCommand('install', 'msiexec /i /qn "%SOFTWARE%\path\to\msi"', 'test', $_exits)
+    ->withCommand('remove', 'msiexec /x /qn "%SOFTWARE%\path\to\msi"')
+    ->withCommand('upgrade', 'msiexec /i /qn "%SOFTWARE%\path\to\msi"')
+    ->withCommand('downgrade', null, 'remove')
+    ->withCommand('downgrade', null, 'install');
+
+echo $_package->show();
 ```
 
-Result file (with name like <id>.xml, eg time.xml like in current example) you can find into the **wpkg_path**/packages/ subfolder:
+Result:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <packages:packages xmlns:packages="http://www.wpkg.org/packages" xmlns:wpkg="http://www.wpkg.org/wpkg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wpkg.org/packages xsd/packages.xsd">
-  <package name="Time Synchronization" revision="1" reboot="false" priority="100" execute="always">
-    <check type="host" condition="os" path="windows 7"/>
+  <package id="wpkg1" name="Windows Packager sample 1" revision="1" priority="0" reboot="false">
+    <check type="registry" condition="exists" path="HKLM\Software\wpkg\full\key\not\part\of\it"/>
+    <check type="file" condition="exists" path="C:\wpkg\wpkg.bat"/>
+    <check type="uninstall" condition="exists" path="WPKG 0.6-test1"/>
     <commands>
-      <command type="install" cmd="net time \timeserver /set /yes"/>
+      <command type="install" cmd="msiexec /i /qn &quot;%SOFTWARE%\path\to\msi&quot;" include="test">
+        <exit code="0"/>
+        <exit code="3010" reboot="true"/>
+        <exit code="any"/>
+        <exit code="2"/>
+      </command>
+      <command type="remove" cmd="msiexec /x /qn &quot;%SOFTWARE%\path\to\msi&quot;"/>
+      <command type="upgrade" cmd="msiexec /i /qn &quot;%SOFTWARE%\path\to\msi&quot;"/>
+      <command type="downgrade" include="remove"/>
+      <command type="downgrade" include="install"/>
     </commands>
   </package>
 </packages:packages>
@@ -389,37 +455,107 @@ Result file (with name like <id>.xml, eg time.xml like in current example) you c
 If you need one large file with all your packages:
 
 ```php
+use \WPKG\Package;
+use \WPKG\PackageCheckExits;
+use \WPKG\Packages;
+
+// Root container
 $_packages = new Packages();
-$_packages->wpkg_path = __DIR__ . '/tmp';
 
-// First package
+/**
+ * Test package #1
+ */
 $pk1 = new Package();
-$pk1->id = 'time';
-$pk1->name = 'Time Synchronization';
-$pk1->priority = 100;
-$pk1->execute = 'always';
-$pk1->setCheck('host', 'os', 'windows 7')
-    ->setCommand('install', 'net time \\timeserver /set /yes');
+$pk1->with('id', 'time')
+    ->with('name', 'Time Synchronization')
+    ->with('priority', 100)
+    ->with('execute', 'always')
+    ->withCheck('host', 'os', 'windows 7')
+    ->withCommand('install', 'net time \\timeserver /set /yes');
 
-$_packages->set($pk1);
+$_packages->setPackage($pk1);
 
-// Second package
+/**
+ * Test package #2
+ */
 $pk2 = new Package();
-$pk2->id = 'time2';
-$pk2->name = 'Time Synchronization';
-$pk2->priority = 100;
-$pk2->execute = 'always';
-$pk2->setCheck('host', 'os', 'windows 7')
-    ->setCommand('install', 'net time \\timeserver /set /yes');
+$pk2_exits = new PackageCheckExits();
 
-$_packages->set($pk2);
+// We need set exit codes for some installation stages
+$pk2_exits
+    ->add(0)
+    ->add(3010, true)
+    ->add('any')
+    ->add(2);
 
-$_packages
-    ->build()
-    ->save();
+$pk2->with('id', 'wpkg')
+    ->with('name', 'Windows Packager sample 1')
+    ->with('revision', 1)
+    ->with('priority', 0)
+    ->with('reboot', 'false')
+    ->withCheck('registry', 'exists', 'HKLM\Software\wpkg\full\key\not\part\of\it')
+    ->withCheck('file', 'exists', 'C:\wpkg\wpkg.bat')
+    ->withCheck('uninstall', 'exists', 'WPKG 0.6-test1')
+    ->withCommand('install', 'msiexec /i /qn "%SOFTWARE%\path\to\msi"', 'test', $pk2_exits)
+    ->withCommand('remove', 'msiexec /x /qn "%SOFTWARE%\path\to\msi"')
+    ->withCommand('upgrade', 'msiexec /i /qn "%SOFTWARE%\path\to\msi"')
+    ->withCommand('downgrade', null, 'remove')
+    ->withCommand('downgrade', null, 'install');
+
+$_packages->setPackage($pk2);
+
+/**
+ * Test package #3
+ */
+$pk3 = new Package();
+$pk3->with('id', 'time3')
+    ->with('name', 'Time Synchronization')
+    ->with('priority', 100)
+    ->with('execute', 'always')
+    ->withCheck('host', 'os', 'windows 7')
+    ->withCommand('install', 'net time \\timeserver /set /yes');
+
+$_packages->setPackage($pk3);
+
+echo $_packages->show();
 ```
 
-Result file *packages.xml* into the **wpkg_path** folder
+Result:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<packages:packages xmlns:packages="http://www.wpkg.org/packages" xmlns:wpkg="http://www.wpkg.org/wpkg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wpkg.org/packages xsd/packages.xsd">
+  <package id="time" name="Time Synchronization" priority="100" execute="always">
+    <check type="host" condition="os" path="windows 7"/>
+    <commands>
+      <command type="install" cmd="net time \timeserver /set /yes"/>
+    </commands>
+  </package>
+  <package id="wpkg" name="Windows Packager sample 1" revision="1" priority="0" reboot="false">
+    <check type="registry" condition="exists" path="HKLM\Software\wpkg\full\key\not\part\of\it"/>
+    <check type="file" condition="exists" path="C:\wpkg\wpkg.bat"/>
+    <check type="uninstall" condition="exists" path="WPKG 0.6-test1"/>
+    <commands>
+      <command type="install" cmd="msiexec /i /qn &quot;%SOFTWARE%\path\to\msi&quot;" include="test">
+        <exit code="0"/>
+        <exit code="3010" reboot="true"/>
+        <exit code="any"/>
+        <exit code="2"/>
+      </command>
+      <command type="remove" cmd="msiexec /x /qn &quot;%SOFTWARE%\path\to\msi&quot;"/>
+      <command type="upgrade" cmd="msiexec /i /qn &quot;%SOFTWARE%\path\to\msi&quot;"/>
+      <command type="downgrade" include="remove"/>
+      <command type="downgrade" include="install"/>
+    </commands>
+  </package>
+  <package id="time3" name="Time Synchronization" priority="100" execute="always">
+    <check type="host" condition="os" path="windows 7"/>
+    <commands>
+      <command type="install" cmd="net time \timeserver /set /yes"/>
+    </commands>
+  </package>
+</packages:packages>
+```
 
 # How to import existed XML
 
@@ -428,15 +564,24 @@ Result file *packages.xml* into the **wpkg_path** folder
 First you need enable the importer class
 
 ```php
-use WPKG\Importers\Hosts;
+use \WPKG\Drivers\XMLImport;
 
-$_hosts = new Hosts();
-$_hosts->wpkg_path = __DIR__ . '/tmp';
-$_hosts->load();
+// Create new object
+$_import = new XMLImport();
+
+// Content of hosts file
+$_hosts_file = file_get_contents('config.xml');
+
+// Read and parse file to normal format
+$_hosts = $_import->import($_hosts_file);
+
+// Print array to stdOut
+print_r($_hosts);
 ```
 
-Now into the `$_hosts` variable you can find the `\WPKG\Config` object.
-So you can do with this object all what [this class](#configxml-file) can.
+Now inside `$_hosts` variable you can find the [\WPKG\Hosts](#hostsxml-file) object with all hosts which was imported.
+
+Same operation for all other configurations, library can check which config you are loaded.
 
 # Get Support!
 

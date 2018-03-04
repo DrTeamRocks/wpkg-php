@@ -20,5 +20,4 @@ $_config
 
 
 // Show current variant of generated XML
-//echo $_config->show('yaml');
 echo $_config->show('xml');

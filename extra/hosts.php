@@ -37,5 +37,4 @@ $host3
 
 $_hosts->setHost($host3);
 
-//echo $_hosts->show('yaml');
-echo $_hosts->show('xml');
+echo $_hosts->show();
