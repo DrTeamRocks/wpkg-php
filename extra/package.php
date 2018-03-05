@@ -21,6 +21,11 @@ $_package
     ->withCheck('file', 'exists', 'C:\wpkg\wpkg.bat')
     ->withCheck('uninstall', 'exists', 'WPKG 0.6-test1');
 
+// Add few variables to package config
+$_package
+    ->withVariable('PROG_FILES32', "%ProgramFiles(x86)%", null, "x64")
+    ->withVariable('DESKTOP', "%ALLUSERSPROFILE%\Desktop", "Windows xp");
+
 // We need set exit codes for some installation stages
 $_exits
     ->add(0)

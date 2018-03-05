@@ -79,9 +79,11 @@ interface Package
      *
      * @param   string $name
      * @param   string $value
+     * @param   null|string $os - Operation system name ['Windows xp','Windows 7'...]
+     * @param   null|string $arch - Architecture of processor ['x86', 'x64'...]
      * @return  \WPKG\Interfaces\Package
      */
-    public function withVariable(string $name, string $value): Package;
+    public function withVariable(string $name, string $value, string $os = null, string $arch = null): Package;
 
     /**
      * Get array of variables

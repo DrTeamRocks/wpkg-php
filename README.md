@@ -30,7 +30,6 @@ look at [WPKG-AD project](https://github.com/wpkg/wpkg-php-ad), which based on t
 - [How to import existed XML](#how-to-import-existed-xml)
     - [Import Config.xml file](#import-configxml-file)
 - [Get Support](#get-support)
-- [RoadMap](#roadmap)
 - [Some links](#some-links)
 
 # How to create XML
@@ -62,7 +61,7 @@ $_config
 // Now we can set the variables
 $_config
     ->withVariable('PROG_FILES32', "%ProgramFiles%", null, "x86")
-    ->withVariable('PROG_FILES32', "%ProgramFiles(x86)%",null, "x64")
+    ->withVariable('PROG_FILES32', "%ProgramFiles(x86)%", null, "x64")
     ->withVariable('DESKTOP', "%ALLUSERSPROFILE%\Desktop", "Windows xp")
     ->withVariable('DESKTOP', "%PUBLIC%\Desktop", "Windows 7");
 
@@ -407,6 +406,11 @@ $_package
     ->withCheck('file', 'exists', 'C:\wpkg\wpkg.bat')
     ->withCheck('uninstall', 'exists', 'WPKG 0.6-test1');
 
+// Add few variables to package config
+$_package
+    ->withVariable('PROG_FILES32', "%ProgramFiles(x86)%", null, "x64")
+    ->withVariable('DESKTOP', "%ALLUSERSPROFILE%\Desktop", "Windows xp");
+
 // We need set exit codes for some installation stages
 $_exits
     ->add(0)
@@ -434,15 +438,17 @@ Result:
     <check type="registry" condition="exists" path="HKLM\Software\wpkg\full\key\not\part\of\it"/>
     <check type="file" condition="exists" path="C:\wpkg\wpkg.bat"/>
     <check type="uninstall" condition="exists" path="WPKG 0.6-test1"/>
+    <variable name="PROG_FILES32" value="%ProgramFiles(x86)%" architecture="x64"/>
+    <variable name="DESKTOP" value="%ALLUSERSPROFILE%\Desktop" os="Windows xp"/>
     <commands>
-      <command type="install" cmd="msiexec /i /qn &quot;%SOFTWARE%\path\to\msi&quot;" include="test">
+      <command type="install" cmd='msiexec /i /qn "%SOFTWARE%\path\to\msi"' include="test">
         <exit code="0"/>
         <exit code="3010" reboot="true"/>
         <exit code="any"/>
         <exit code="2"/>
       </command>
-      <command type="remove" cmd="msiexec /x /qn &quot;%SOFTWARE%\path\to\msi&quot;"/>
-      <command type="upgrade" cmd="msiexec /i /qn &quot;%SOFTWARE%\path\to\msi&quot;"/>
+      <command type="remove" cmd='msiexec /x /qn "%SOFTWARE%\path\to\msi"'/>
+      <command type="upgrade" cmd='msiexec /i /qn "%SOFTWARE%\path\to\msi"'/>
       <command type="downgrade" include="remove"/>
       <command type="downgrade" include="install"/>
     </commands>
