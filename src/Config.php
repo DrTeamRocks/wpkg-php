@@ -79,11 +79,11 @@ class Config extends WPKG implements Interfaces\Config
     }
 
     /**
-     * Show single variable by name of all variables
+     * Get array of variables
      *
-     * @return array
+     * @return  array
      */
-    public function getVariables()
+    public function getVariables(): array
     {
         return $this->_config['variables'];
     }

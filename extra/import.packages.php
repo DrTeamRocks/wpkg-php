@@ -7,10 +7,12 @@ use \WPKG\Drivers\XMLImport;
 $_import = new XMLImport();
 
 // Content of hosts file
-$_file = file_get_contents(__DIR__. '/../vendor/wpkg/wpkg-js/hosts.xml');
+$_file = file_get_contents(__DIR__. '/../vendor/wpkg/wpkg-js/packages.xml');
 
 // Read and parse file to normal format
-$_hosts = $_import->import($_file);
+$_packages = $_import->import($_file);
 
 // Print array to stdOut
-print_r($_hosts);
+print_r($_packages);
+
+echo $_packages->show();

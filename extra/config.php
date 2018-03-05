@@ -20,4 +20,4 @@ $_config
 
 
 // Show current variant of generated XML
-echo $_config->show('xml');
+echo $_config->show();

@@ -30,9 +30,4 @@ class Config
      */
     const XSD = __DIR__ . '/../../vendor/wpkg/wpkg-js/xsd/config.xsd';
 
-    /**
-     * Name of file on filesystem
-     * @var string
-     */
-    const FILENAME = 'config.xml';
 }

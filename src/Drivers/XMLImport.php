@@ -8,11 +8,6 @@ class XMLImport implements Import
     use Errors;
 
     /**
-     * @var
-     */
-    private $_xml;
-
-    /**
      * Convert XML to array
      *
      * @param   string $data - XML in plain text format
@@ -21,10 +16,10 @@ class XMLImport implements Import
     public function import($data)
     {
         // Load XML from string
-        $this->_xml = simplexml_load_string($data);
+        $xml = new \SimpleXMLElement($data);
 
         // Convert from creepy object to normal array
-        $array = json_decode(json_encode((array)$this->_xml), true);
+        $array = json_decode(json_encode((array)$xml), true);
 
         // Run parser
         return $this->parse($array);

@@ -5,6 +5,13 @@ use \WPKG\Interfaces\Export;
 
 class XML implements Export
 {
+    /**
+     * Build configuration file from data in array
+     *
+     * @param   array $array - Incoming array for convert
+     * @param   string $mode - Work mode, Hosts, Packages etc
+     * @return  string
+     */
     public function build(array $array, string $mode): string
     {
         // Get parameters of current class
@@ -30,7 +37,7 @@ class XML implements Export
     /**
      * Make XML more readable
      *
-     * @param   string $xml
+     * @param   string $xml - Plain text XML
      * @return  string
      */
     private function prettify(string $xml): string
@@ -39,10 +46,23 @@ class XML implements Export
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
         $dom->loadXML($xml);
-        return $dom->saveXML();
+
+        // Output XML
+        $out = $dom->saveXML();
+
+        // Special street magic, this line required for fix cmd="&quot; bug
+        $out = preg_replace(['/cmd="([^"]*)"/s', '/&quot;/s'], ['cmd=\'${1}\'', "\""], $out);
+
+        return $out;
     }
 
-    private function serialize(array $array)
+    /**
+     * Format of array must be changed little bit
+     *
+     * @param   array $array - Incoming normal array
+     * @return  array
+     */
+    private function serialize(array $array): array
     {
         $out = [];
         foreach ($array as $a_key => $a_value) {
@@ -50,6 +70,8 @@ class XML implements Export
 
                 case ($a_key == 'package'):
                     foreach ($a_value as $v_key => $v_value) {
+
+                        // Parse checks array
                         if (isset($v_value['checks'])) {
                             foreach ($v_value['checks'] as $c_key => $c_value) {
                                 foreach ($c_value as $c_item) {
@@ -57,6 +79,14 @@ class XML implements Export
                                 }
                             }
                             unset($v_value['checks']);
+                        }
+
+                        // Parse variables array
+                        if (isset($v_value['variables'])) {
+                            foreach ($v_value['variables'] as $vv_key => $vv_value) {
+                                $out[$a_key][$v_key]['variable'][]['_attributes'] = $vv_value;
+                            }
+                            unset($v_value['variables']);
                         }
 
                         // Parse commands array

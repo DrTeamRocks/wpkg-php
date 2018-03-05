@@ -11,7 +11,8 @@ interface Package
         Package::REVISION,
         Package::REBOOT,
         Package::PRIORITY,
-        Package::EXECUTE
+        Package::EXECUTE,
+        Package::INCLUDE
     ];
 
     /**
@@ -41,9 +42,13 @@ interface Package
 
     /**
      * Execution period (optional)
-     * @var string
      */
     const EXECUTE = 'execute';
+
+    /**
+     * List of included packages
+     */
+    const INCLUDE = 'include';
 
     /**
      * Get current object
@@ -79,12 +84,11 @@ interface Package
     public function withVariable(string $name, string $value): Package;
 
     /**
-     * Get some variable or array of variables
+     * Get array of variables
      *
-     * @param   string $name - Name of required variable
-     * @return  array|string
+     * @return  array
      */
-    public function getVariable(string $name = null);
+    public function getVariables(): array;
 
     /**
      * Set the command of package
@@ -111,9 +115,10 @@ interface Package
      * @param   string $type
      * @param   string $condition
      * @param   string $path
+     * @param   string $value
      * @return  \WPKG\Interfaces\Package
      */
-    public function withCheck(string $type, string $condition, string $path): Package;
+    public function withCheck(string $type, string $condition, string $path, string $value = null): Package;
 
     /**
      * Get all checks or checks by some specific type
@@ -122,5 +127,20 @@ interface Package
      * @return  array
      */
     public function getCheck(string $type = null): array;
+
+    /**
+     * Add includes of current package
+     *
+     * @param   string $include
+     * @return  \WPKG\Interfaces\Package
+     */
+    public function withInclude(string $include): Package;
+
+    /**
+     * Take a list of includes
+     *
+     * @return  array
+     */
+    public function getInclude(): array;
 
 }

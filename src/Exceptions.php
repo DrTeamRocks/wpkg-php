@@ -30,4 +30,16 @@ class Exceptions
             throw new \Exception("Key \"$key\" is not defined.");
         }
     }
+
+    /**
+     * Check if element is object
+     * @param   mixed $object
+     * @throws  \Exception
+     */
+    static function isObject($object)
+    {
+        if (!is_object($object)) {
+            throw new \Exception("Is not an object.");
+        }
+    }
 }

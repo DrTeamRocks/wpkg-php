@@ -2,7 +2,7 @@
 
 use \WPKG\Interfaces\Export;
 
-class YAML implements Export
+class JSON implements Export
 {
     /**
      * Build configuration file from data in array
@@ -16,10 +16,7 @@ class YAML implements Export
         // Set root parameter
         $array = [strtolower($mode) => $array];
 
-        // Create object of YAML driver
-        $yaml = new \EvilFreelancer\Yaml\Yaml();
-
-        // Generate YAML
-        return $yaml->set($array)->show();
+        // Create valid JSON object
+        return json_encode($array);
     }
 }

@@ -7,10 +7,12 @@ use \WPKG\Drivers\XMLImport;
 $_import = new XMLImport();
 
 // Content of profiles file
-$_hosts_file = file_get_contents(__DIR__. '/../vendor/wpkg/wpkg-js/profiles.xml');
+$_file = file_get_contents(__DIR__. '/../vendor/wpkg/wpkg-js/profiles.xml');
 
 // Read and parse file to normal format
-$_package = $_import->import($_hosts_file);
+$_profiles = $_import->import($_file);
 
 // Print array to stdOut
-print_r($_package);
+print_r($_profiles);
+
+echo $_profiles->show();

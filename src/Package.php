@@ -72,29 +72,36 @@ class Package extends Packages implements Interfaces\Package
     }
 
     /**
-     * Set some variable
+     * Append variable into array of config's variables
      *
      * @param   string $name
      * @param   string $value
+     * @param   null|string $os - Operation system name ['Windows xp','Windows 7'...]
+     * @param   null|string $arch - Architecture of processor ['x86', 'x64'...]
      * @return  \WPKG\Interfaces\Package
      */
-    public function withVariable(string $name, string $value): Interfaces\Package
+    public function withVariable(string $name, string $value, string $os = null, string $arch = null): Interfaces\Package
     {
-        $this->_packages['package'][0]['variables'][$name] = $value;
+        $array = [
+            'name' => $name,
+            'value' => $value
+        ];
+
+        if (!empty($os)) $array['os'] = $os;
+        if (!empty($arch)) $array['architecture'] = $arch;
+
+        $this->_packages['package'][0]['variables'][] = $array;
         return $this;
     }
 
     /**
-     * Get some variable or array of variables
+     * Get array of variables
      *
-     * @param   string $name - Name of required variable
      * @return  array|string
      */
-    public function getVariable(string $name = null)
+    public function getVariables(): array
     {
-        return empty($name)
-            ? $this->_packages['package'][0]['variables']
-            : $this->_packages['package'][0]['variables'][$name];
+        return $this->_packages['package'][0]['variables'];
     }
 
     /**
@@ -108,7 +115,7 @@ class Package extends Packages implements Interfaces\Package
      */
     public function withCommand(string $type, string $cmd = null, $include = null, Interfaces\PackageCheckExits $exits = null): Interfaces\Package
     {
-        $array = ['type' => $type];
+        $array = [];
         if (!empty($cmd)) $array['cmd'] = $cmd;
         if (!empty($include)) $array['include'] = $include;
         if (!empty($exits)) $array['exits'] = $exits->get();
@@ -137,14 +144,21 @@ class Package extends Packages implements Interfaces\Package
      * @param   string $type
      * @param   string $condition
      * @param   string $path
+     * @param   string $value
      * @return  \WPKG\Interfaces\Package
      */
-    public function withCheck(string $type, string $condition, string $path): Interfaces\Package
+    public function withCheck(string $type, string $condition, string $path, string $value = null): Interfaces\Package
     {
-        $this->_packages['package'][0]['checks'][$type][] = [
+        $array = [
             'condition' => $condition,
             'path' => $path
         ];
+
+        // Value may be not set
+        if (!empty($value)) $array['value'] = $value;
+
+        // Put new check into checks of current package
+        $this->_packages['package'][0]['checks'][$type][] = $array;
 
         return $this;
     }
@@ -160,6 +174,28 @@ class Package extends Packages implements Interfaces\Package
         return empty($type)
             ? $this->_packages['package'][0]['checks']
             : $this->_packages['package'][0]['checks'][$type];
+    }
+
+    /**
+     * Add includes of current package
+     *
+     * @param   string $include
+     * @return  \WPKG\Interfaces\Package
+     */
+    public function withInclude(string $include): Interfaces\Package
+    {
+        $this->_packages['include'][] = $include;
+        return $this;
+    }
+
+    /**
+     * Take a list of includes
+     *
+     * @return  array
+     */
+    public function getInclude(): array
+    {
+        return $this->_packages['include'];
     }
 
 }
