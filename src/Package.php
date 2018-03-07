@@ -1,5 +1,7 @@
 <?php namespace WPKG;
 
+use WPKG\Exceptions\ArrayException;
+
 /**
  * Class for work with Packages/ folder
  *
@@ -29,14 +31,12 @@ class Package extends Packages implements Interfaces\Package
     {
         try {
             // Check parameters
-            Exceptions::arrayKeyAllowed($key, Package::KEYS);
+            ArrayException::keyAllowed($key, Package::KEYS);
 
             // Add value into the array
             $this->_packages['package'][0][$key] = $value;
 
-        } catch (\Exception $e) {
-            echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
-        }
+        } catch (ArrayException $e) {}
 
         return $this;
     }
@@ -55,8 +55,8 @@ class Package extends Packages implements Interfaces\Package
         try {
             if (!empty($key)) {
                 // Check parameters
-                Exceptions::arrayKeyAllowed($key, Package::KEYS);
-                Exceptions::arrayKeyDefined($key, $this->_packages['package'][0]);
+                ArrayException::keyAllowed($key, Package::KEYS);
+                ArrayException::keyDefined($key, $this->_packages['package'][0]);
 
                 // Return value from array
                 $result = $this->_packages['package'][0][$key];
@@ -64,9 +64,7 @@ class Package extends Packages implements Interfaces\Package
                 // Return all values from array
                 $result = $this->_packages['package'][0];
             }
-        } catch (\Exception $e) {
-            echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
-        }
+        } catch (ArrayException $e) {}
 
         return $result;
     }

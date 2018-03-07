@@ -1,5 +1,7 @@
 <?php namespace WPKG;
 
+use WPKG\Exceptions\ArrayException;
+
 /**
  * Class for work with Profiles.xml file or Profiles/ folder
  *
@@ -32,8 +34,8 @@ class Profile extends Profiles implements Interfaces\Profile
         try {
             if (!empty($key)) {
                 // Check parameters
-                Exceptions::arrayKeyAllowed($key, Profile::KEYS);
-                Exceptions::arrayKeyDefined($key, $this->_profiles['profile'][0]);
+                ArrayException::keyAllowed($key, Profile::KEYS);
+                ArrayException::keyDefined($key, $this->_profiles['profile'][0]);
 
                 // Return value from array
                 $result = $this->_profiles['profile'][0][$key];
@@ -41,9 +43,7 @@ class Profile extends Profiles implements Interfaces\Profile
                 // Return all values from array
                 $result = $this->_profiles['profile'][0];
             }
-        } catch (\Exception $e) {
-            echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
-        }
+        } catch (ArrayException $e) {}
 
         return $result;
     }
@@ -59,14 +59,12 @@ class Profile extends Profiles implements Interfaces\Profile
     {
         try {
             // Check parameters
-            Exceptions::arrayKeyAllowed($key, Profile::KEYS);
+            ArrayException::keyAllowed($key, Profile::KEYS);
 
             // Add value into the array
             $this->_profiles['profile'][0][$key] = $value;
 
-        } catch (\Exception $e) {
-            echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
-        }
+        } catch (ArrayException $e) {}
 
         return $this;
     }

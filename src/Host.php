@@ -1,5 +1,7 @@
 <?php namespace WPKG;
 
+use WPKG\Exceptions\ArrayException;
+
 /**
  * Class for work with Hosts.xml file or Hosts/ folder
  *
@@ -32,8 +34,8 @@ class Host extends Hosts implements Interfaces\Host
         try {
             if (!empty($key)) {
                 // Check parameters
-                Exceptions::arrayKeyAllowed($key, Host::KEYS);
-                Exceptions::arrayKeyDefined($key, $this->_hosts['host'][0]);
+                ArrayException::keyAllowed($key, Host::KEYS);
+                ArrayException::keyDefined($key, $this->_hosts['host'][0]);
 
                 // Return value from array
                 $result = $this->_hosts['host'][0][$key];
@@ -41,9 +43,7 @@ class Host extends Hosts implements Interfaces\Host
                 // Return all values from array
                 $result = $this->_hosts['host'][0];
             }
-        } catch (\Exception $e) {
-            echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
-        }
+        } catch (ArrayException $e) {}
 
         return $result;
     }
@@ -59,14 +59,12 @@ class Host extends Hosts implements Interfaces\Host
     {
         try {
             // Check parameters
-            Exceptions::arrayKeyAllowed($key, Host::KEYS);
+            ArrayException::keyAllowed($key, Host::KEYS);
 
             // Add value into the array
             $this->_hosts['host'][0][$key] = $value;
 
-        } catch (\Exception $e) {
-            echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
-        }
+        } catch (ArrayException $e) {}
 
         return $this;
     }

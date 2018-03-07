@@ -1,5 +1,7 @@
 <?php namespace WPKG;
 
+use WPKG\Exceptions\ArrayException;
+
 /**
  * Class for work with Config.xml file within the same directory as you place wpkg.js.
  *
@@ -39,7 +41,7 @@ class Config extends WPKG implements Interfaces\Config
 
         try {
             // Check parameters
-            Exceptions::arrayKeyAllowed($key, Config::KEYS);
+            ArrayException::keyAllowed($key, Config::KEYS);
 
             // Add value into the array
             $this->_config['param'][] = [
@@ -47,9 +49,7 @@ class Config extends WPKG implements Interfaces\Config
                 'value' => $value
             ];
 
-        } catch (\Exception $e) {
-            echo "Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n";
-        }
+        } catch (ArrayException $e) {}
 
         return $this;
     }

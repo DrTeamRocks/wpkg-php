@@ -1,5 +1,7 @@
 <?php namespace WPKG;
 
+use WPKG\Exceptions\ArrayException;
+
 class WPKG
 {
     /**
@@ -19,10 +21,11 @@ class WPKG
     {
         // To lowercase
         $type = strtolower($type);
+        $factory = false;
 
         try {
             // Check parameters
-            Exceptions::arrayKeyAllowed($type, self::TYPES);
+            ArrayException::keyAllowed($type, self::TYPES);
 
             // To uppercase
             $type = strtoupper($type);
@@ -32,11 +35,9 @@ class WPKG
             $factory = new $driver();
 
             // Check for object
-            Exceptions::isObject($factory);
+            ArrayException::isObject($factory);
 
-        } catch (\Exception $e) {
-            die("Error in " . $e->getFile() . " line " . $e->getLine() . ": " . $e->getMessage() . "\n");
-        }
+        } catch (ArrayException $e) {}
 
         // Convert all boolean variables to text
         array_walk_recursive($array, function (&$value) {
